@@ -1,7 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`Blog list component > renders correclty 1`] = `
-<div>
-  List of blogs
-</div>
-`;
