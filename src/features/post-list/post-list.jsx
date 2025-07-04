@@ -1,13 +1,8 @@
-import { useEffect, useState } from "react";
-import postService from "@/services/post.service";
 import PostItem from "./post-item/post-item";
+import useFetchPosts from "./useFetchPosts";
 
 const PostList = () => {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    postService.getAll().then((postList) => setPosts(postList));
-  }, []);
+  const { posts } = useFetchPosts();
 
   return (
     <ul>
