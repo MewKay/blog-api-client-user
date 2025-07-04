@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import postService from "@/services/post.service";
 
-const BlogList = () => {
+const PostList = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -23,4 +23,4 @@ const BlogList = () => {
   );
 };
 
-export default BlogList;
+export default PostList;

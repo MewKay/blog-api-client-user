@@ -1,9 +1,9 @@
-import BlogList from "./blog-list/blog-list";
+import Home from "./home/home";
 
 const routes = [
   {
     path: "/",
-    element: <BlogList />,
+    element: <Home />,
   },
 ];
 

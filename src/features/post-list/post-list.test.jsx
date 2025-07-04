@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import BlogList from "./blog-list";
+import PostList from "./post-list";
 
 const mockPostList = [
   {
@@ -31,7 +31,7 @@ vi.mock("@/services/post.service.js", () => ({
 
 describe("Blog list component", () => {
   it("fetched posts list", async () => {
-    render(<BlogList />);
+    render(<PostList />);
     const firstPostTitle = new RegExp(mockPostList[0].title, "i");
     const secondPostTitle = new RegExp(mockPostList[1].title, "i");
 
@@ -39,7 +39,6 @@ describe("Blog list component", () => {
     const firstPost = await screen.findByText(firstPostTitle);
     const secondPost = await screen.findByText(secondPostTitle);
 
-    screen.debug();
     expect(postList).toHaveLength(mockPostList.length);
     expect(firstPost).toBeInTheDocument();
     expect(secondPost).toBeInTheDocument();

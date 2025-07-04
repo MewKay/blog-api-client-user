@@ -2,15 +2,15 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import App from "./app";
 
-vi.mock("./blog-list/blog-list", () => ({
-  default: () => <>This is blog list</>,
+vi.mock("./home/home", () => ({
+  default: () => <>This is home page</>,
 }));
 
 describe("App component", () => {
-  it("should render blog list by default", () => {
+  it("should render home page by default", () => {
     render(<App />);
 
-    const blogListText = screen.getByText("This is blog list");
+    const blogListText = screen.getByText("This is home page");
 
     expect(blogListText).toBeInTheDocument();
   });
