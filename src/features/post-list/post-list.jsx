@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import postService from "@/services/post.service";
+import PostItem from "./post-item/post-item";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -11,13 +12,7 @@ const PostList = () => {
   return (
     <ul>
       {posts.map((post) => (
-        <li key={post.id}>
-          <h3>{post.title}</h3>
-          <p>
-            by @{post.author.username} at {post.created_at}
-          </p>
-          <p>{post.text}</p>
-        </li>
+        <PostItem key={post.id} post={post} />
       ))}
     </ul>
   );

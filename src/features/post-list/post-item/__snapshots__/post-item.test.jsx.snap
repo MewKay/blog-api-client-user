@@ -1,0 +1,20 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Post Item component > renders correctly 1`] = `
+<div>
+  <li>
+    <h3>
+      This is my first post
+    </h3>
+    <p>
+      by @
+      Some_random_person
+       at 
+      2025-05-15T21:00:00.000Z
+    </p>
+    <p>
+      This is preview of body
+    </p>
+  </li>
+</div>
+`;

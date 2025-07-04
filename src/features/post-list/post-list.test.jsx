@@ -1,45 +1,25 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import PostList from "./post-list";
-
-const mockPostList = [
-  {
-    id: 1,
-    title: "This is my first post",
-    text: "This is the body of my post",
-    created_at: new Date(2025, 4, 16).toISOString(),
-    author: {
-      username: "Some_random_person",
-    },
-  },
-  {
-    id: 2,
-    title: "Art of testing",
-    text: "Testing is mandatory, nuff said",
-    created_at: new Date(2023, 8, 21).toISOString(),
-    author: {
-      username: "thu_sun",
-    },
-  },
-];
+import mockPosts from "@/testing/mocks/posts";
 
 vi.mock("@/services/post.service.js", () => ({
   default: {
-    getAll: vi.fn(() => Promise.resolve(mockPostList)),
+    getAll: vi.fn(() => Promise.resolve(mockPosts)),
   },
 }));
 
 describe("Blog list component", () => {
   it("fetched posts list", async () => {
     render(<PostList />);
-    const firstPostTitle = new RegExp(mockPostList[0].title, "i");
-    const secondPostTitle = new RegExp(mockPostList[1].title, "i");
+    const firstPostTitle = new RegExp(mockPosts[0].title, "i");
+    const secondPostTitle = new RegExp(mockPosts[1].title, "i");
 
     const postList = await screen.findAllByRole("listitem");
     const firstPost = await screen.findByText(firstPostTitle);
     const secondPost = await screen.findByText(secondPostTitle);
 
-    expect(postList).toHaveLength(mockPostList.length);
+    expect(postList).toHaveLength(mockPosts.length);
     expect(firstPost).toBeInTheDocument();
     expect(secondPost).toBeInTheDocument();
   });
