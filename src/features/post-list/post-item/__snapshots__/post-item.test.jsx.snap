@@ -9,8 +9,8 @@ exports[`Post Item component > renders correctly 1`] = `
     <p>
       by @
       Some_random_person
-       at 
-      2025-05-15T21:00:00.000Z
+       · 
+      4 months ago
     </p>
     <p>
       This is preview of body
