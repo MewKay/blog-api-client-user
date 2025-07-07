@@ -1,33 +1,9 @@
 import { useEffect, useReducer } from "react";
 import postService from "@/services/post.service";
-
-const postsReducer = (state, action) => {
-  switch (action.type) {
-    case "FETCH_INIT":
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    case "FETCH_SUCCESS":
-      return {
-        data: action.payload,
-        loading: false,
-        error: null,
-      };
-    case "FETCH_ERROR":
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.message,
-      };
-    default:
-      throw new Error("Unhandled type");
-  }
-};
+import fetchReducer from "@/hooks/fetchReducer";
 
 const useFetchPosts = () => {
-  const [posts, dispatchPosts] = useReducer(postsReducer, {
+  const [posts, dispatchPosts] = useReducer(fetchReducer, {
     data: [],
     loading: true,
     error: null,
