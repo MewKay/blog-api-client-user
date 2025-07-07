@@ -1,28 +1,8 @@
-import postService from "@/services/post.service";
+import useFetchPost from "./useFetchPost";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
 
 const Post = ({ id }) => {
-  const [post, setPost] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    setLoading(true);
-
-    postService
-      .getById(id)
-      .then((post) => {
-        setPost(post);
-        setLoading(false);
-        setError(null);
-      })
-      .catch((error) => {
-        setPost({});
-        setLoading(false);
-        setError(error.message);
-      });
-  }, [id]);
+  const { post, loading, error } = useFetchPost(id);
 
   if (loading) {
     return <p>Loading...</p>;
