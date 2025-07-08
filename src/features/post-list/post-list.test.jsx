@@ -10,6 +10,10 @@ vi.mock("@/services/post.service.js", () => ({
   },
 }));
 
+vi.mock("./post-item/post-item.jsx", () => ({
+  default: ({ post }) => <li>{post.title}</li>,
+}));
+
 describe("Blog list component", () => {
   it("display loading message while fetching", async () => {
     // Return a pending promise that should lead to an infinite loading
