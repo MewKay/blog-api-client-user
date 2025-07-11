@@ -20,6 +20,7 @@ const BlogPost = () => {
 
   return (
     <main>
+      <Link to={"/"}>{"<--"} Back to blog list</Link>
       <Post id={postId} />
     </main>
   );

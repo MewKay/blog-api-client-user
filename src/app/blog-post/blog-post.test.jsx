@@ -10,12 +10,30 @@ vi.mock("../home/home.jsx", () => ({
 }));
 
 describe("Blog Post page", () => {
+  it("display link to home while and after fetching", async () => {
+    const user = userEvent.setup();
+
+    const router = createMemoryRouter(routes, {
+      initialEntries: ["/posts/mockedid/slug"],
+    });
+
+    render(<RouterProvider router={router} />);
+
+    const homeLink = screen.getByRole("link", { name: /home/i });
+    expect(homeLink).toBeInTheDocument();
+
+    await user.click(homeLink);
+    const homeText = await screen.findByText("This is home");
+
+    expect(homeText).toBeInTheDocument();
+  });
+
   it("display link to home if post is not found", async () => {
     sqids.decode = vi.fn().mockReturnValueOnce(null);
     const user = userEvent.setup();
 
     const router = createMemoryRouter(routes, {
-      initialEntries: ["/posts/:id/:slug"],
+      initialEntries: ["/posts/notAnActualId/slug"],
     });
 
     render(<RouterProvider router={router} />);
