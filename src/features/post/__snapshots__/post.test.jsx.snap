@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Post component > renders correctly 1`] = `
+<div>
+  <div>
+    <h2>
+      Art of testing
+    </h2>
+    <p>
+      2023-09-20T21:00:00.000Z
+       | 
+      thu_sun
+    </p>
+    <div>
+      Testing is mandatory, nuff said
+    </div>
+  </div>
+</div>
+`;

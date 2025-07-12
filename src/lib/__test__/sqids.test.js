@@ -3,30 +3,24 @@ import sqids from "../sqids";
 import Sqids from "sqids";
 
 describe("sqids wrapper", () => {
-  it("returns falsy if encodedId length is different than eight", () => {
-    const result1 = sqids.decode("short");
-    const result2 = sqids.decode("verylong1dthisis");
-
-    expect(result1).toBeFalsy();
-    expect(result2).toBeFalsy();
+  it("throws Response if encodedId length is different than eight", () => {
+    expect(() => sqids.decode("short")).toThrow(Response);
+    expect(() => sqids.decode("verylong1dthisis")).toThrow(Response);
   });
 
-  it("returns falsy if encodedId decoded to more than one number", () => {
+  it("throws Response if encodedId decoded to more than one number", () => {
     const encodedTestId = new Sqids({
       alphabet: import.meta.env.VITE_SQIDS_ALPHABET,
       minLength: 8,
     }).encode([1, 2, 3]);
-    const result = sqids.decode(encodedTestId);
 
-    expect(result).toBeFalsy();
+    expect(() => sqids.decode(encodedTestId)).toThrow(Response);
   });
 
-  it("returns falsy if encodedId is not canonical", () => {
+  it("throws Response if encodedId is not canonical", () => {
     const encodedTestId = sqids.encode(6);
     const nonCanonicalId = encodedTestId.replace(encodedTestId.charAt(-1), "0");
 
-    const result = sqids.decode(nonCanonicalId);
-
-    expect(result).toBeFalsy();
+    expect(() => sqids.decode(nonCanonicalId)).toThrow(Response);
   });
 });

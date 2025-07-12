@@ -21,13 +21,13 @@ const sqids = {
     const isLengthValid = encodedId.length === 8;
 
     if (!isLengthValid || !isCanonical(encodedId)) {
-      return null;
+      throw new Response("Invalid ID", { status: 400 });
     }
 
     const decodedIds = sqidsInstance.decode(encodedId);
 
     if (decodedIds.length > 1) {
-      return null;
+      throw new Response("Invalid ID", { status: 400 });
     }
 
     return decodedIds[0];

@@ -1,17 +1,6 @@
-import useFetchPost from "./useFetchPost";
 import PropTypes from "prop-types";
 
-const Post = ({ id }) => {
-  const { post, loading, error } = useFetchPost(id);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Something went wrong. Please try to refresh the page.</p>;
-  }
-
+const Post = ({ post }) => {
   const { title, text, created_at, author } = post;
 
   return (
@@ -26,7 +15,14 @@ const Post = ({ id }) => {
 };
 
 Post.propTypes = {
-  id: PropTypes.number.isRequired,
+  post: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    created_at: PropTypes.string.isRequired,
+    author: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+    }),
+  }),
 };
 
 export default Post;

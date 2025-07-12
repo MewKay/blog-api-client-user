@@ -10,7 +10,7 @@ vi.mock("../home/home.jsx", () => ({
 }));
 
 describe("Blog Post page", () => {
-  it("display link to home while and after fetching", async () => {
+  it("display link to home on post", async () => {
     const user = userEvent.setup();
 
     const router = createMemoryRouter(routes, {
@@ -19,7 +19,7 @@ describe("Blog Post page", () => {
 
     render(<RouterProvider router={router} />);
 
-    const homeLink = screen.getByRole("link", { name: /home/i });
+    const homeLink = await screen.findByRole("link", { name: /home/i });
     expect(homeLink).toBeInTheDocument();
 
     await user.click(homeLink);
@@ -28,22 +28,66 @@ describe("Blog Post page", () => {
     expect(homeText).toBeInTheDocument();
   });
 
-  it("display link to home if post is not found", async () => {
-    sqids.decode = vi.fn().mockReturnValueOnce(null);
+  it("display link to home on error boundary", async () => {
+    sqids.decode = vi.fn().mockImplementationOnce(() => {
+      throw new Response();
+    });
+
     const user = userEvent.setup();
 
-    const router = createMemoryRouter(routes, {
-      initialEntries: ["/posts/notAnActualId/slug"],
-    });
+    const router = createMemoryRouter(
+      routes.map((route) => {
+        const isPathBlogPost = route.path == "/posts/:encodedId/:slug";
+
+        if (!isPathBlogPost) {
+          return route;
+        }
+
+        return {
+          ...route,
+          loader: () => Promise.reject(new Error("This is error")),
+        };
+      }),
+      {
+        initialEntries: ["/posts/notAnActualId/slug"],
+      },
+    );
 
     render(<RouterProvider router={router} />);
 
-    const homeLink = screen.getByRole("link", { name: /home/i });
+    const homeLink = await screen.findByRole("link", { name: /home/i });
     expect(homeLink).toBeInTheDocument();
 
     await user.click(homeLink);
     const homeText = await screen.findByText("This is home");
 
     expect(homeText).toBeInTheDocument();
+  });
+
+  it("display error boundary on invalid id", async () => {
+    const testRouter = routes.map((route) => {
+      const isPathBlogPost = route.path == "/posts/:encodedId/:slug";
+
+      if (!isPathBlogPost) {
+        return route;
+      }
+
+      const newRoute = {
+        ...route,
+        errorElement: <>This is error</>,
+      };
+
+      return newRoute;
+    });
+
+    const router = createMemoryRouter(testRouter, {
+      initialEntries: ["/posts/invalidId/slug"],
+    });
+
+    render(<RouterProvider router={router} />);
+
+    const errorText = await screen.findByText("This is error");
+
+    expect(errorText).toBeInTheDocument();
   });
 });
