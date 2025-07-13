@@ -6,11 +6,16 @@ exports[`Post component > renders correctly 1`] = `
     <h2>
       Art of testing
     </h2>
-    <p>
-      2023-09-20T21:00:00.000Z
-       | 
-      thu_sun
-    </p>
+    <div>
+      <p>
+        SEPTEMBER 21, 2023
+      </p>
+      ( Last edited JANUARY 10, 2024 )
+       |
+      <p>
+        thu_sun
+      </p>
+    </div>
     <div>
       Testing is mandatory, nuff said
     </div>
