@@ -1,16 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Comment from "./comment";
+import mockComments from "@/testing/mocks/comments";
 
-const mockComment = {
-  id: 0,
-  text: "I'm commentin and criticizin",
-  created_at: new Date(2017, 10, 24).toISOString(),
-  edited_at: new Date(2017, 10, 24).toISOString(),
-  user: {
-    username: "McComment",
-  },
-};
+const mockComment = mockComments[0];
 
 describe("Comment component", () => {
   it("renders correctly", () => {

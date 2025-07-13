@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CommentList component > renders correctly 1`] = `
+<div>
+  <ul>
+    <li>
+      <p>
+        I'm commentin and criticizin
+      </p>
+    </li>
+    <li>
+      <p>
+        Wow, life changing!
+      </p>
+    </li>
+    <li>
+      <p>
+        What a delightful post, I will cherish it the rest of my life
+      </p>
+    </li>
+  </ul>
+</div>
+`;

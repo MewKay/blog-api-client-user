@@ -23,7 +23,7 @@ CommentList.propTypes = {
       edited_at: PropTypes.string.isRequired,
       created_at: PropTypes.string.isRequired,
     }),
-  ),
+  ).isRequired,
 };
 
 export default CommentList;
