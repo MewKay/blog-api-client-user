@@ -1,15 +1,19 @@
+import { formatDistanceToNowStrict } from "date-fns";
 import PropTypes from "prop-types";
 
 const Comment = ({ comment }) => {
   const { user, text, edited_at, created_at } = comment;
   const isCommentEdited = edited_at !== created_at;
+  const formattedDate = formatDistanceToNowStrict(created_at, {
+    addSuffix: true,
+  });
 
   return (
     <>
       <div>
         <h6>{user.username}</h6>
         <span>
-          <p>{edited_at}</p>
+          <p>&middot; {formattedDate}</p>
           {isCommentEdited && "(edited)"}
         </span>
       </div>

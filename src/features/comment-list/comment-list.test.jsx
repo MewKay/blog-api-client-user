@@ -9,9 +9,7 @@ vi.mock("../comment/comment.jsx", () => ({
 
 describe("CommentList component", () => {
   it("renders correctly", () => {
-    const { container } = render(
-      <CommentList commentList={mockComments} loading={false} />,
-    );
+    const { container } = render(<CommentList commentList={mockComments} />);
 
     expect(container).toMatchSnapshot();
   });
