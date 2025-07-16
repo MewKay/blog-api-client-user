@@ -1,7 +1,14 @@
 import api from "./api-client";
 
 const authService = {
-  login: (body) => api.post("/login", body),
+  login: async (credentials) => {
+    const response = await api.post("/login", credentials);
+
+    localStorage.setItem("user", response.user);
+    localStorage.setItem("token", response.token);
+
+    return response;
+  },
   signup: (body) => api.post("/signup", body),
 };
 
