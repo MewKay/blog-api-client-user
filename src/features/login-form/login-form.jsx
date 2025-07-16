@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form } from "react-router-dom";
+import Input from "@/components/input/input";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -7,25 +8,23 @@ const LoginForm = () => {
 
   return (
     <Form method="post">
-      <label>
+      <Input
+        type="text"
+        name="username"
+        value={username}
+        setValue={setUsername}
+      >
         Username
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
-      </label>
+      </Input>
 
-      <label>
+      <Input
+        type="password"
+        name="password"
+        value={password}
+        setValue={setPassword}
+      >
         Password
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-      </label>
+      </Input>
 
       <button>Log in</button>
     </Form>
