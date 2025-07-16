@@ -10,6 +10,7 @@ const authService = {
     return response;
   },
   signup: (body) => api.post("/signup", body),
+  getUser: () => JSON.parse(localStorage.getItem("user")),
 };
 
 export default authService;
