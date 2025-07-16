@@ -4,6 +4,7 @@ import BlogPost from "./blog-post/blog-post";
 import BlogPostBoundary from "./blog-post/blog-post.boundary";
 import blogPostLoader from "./blog-post/blog-post.loader";
 import Login from "./login/login";
+import LoginAction from "./login/login.action";
 
 const routes = [
   {
@@ -22,6 +23,7 @@ const routes = [
   {
     path: "/log-in",
     element: <Login />,
+    action: LoginAction,
   },
 ];
 
