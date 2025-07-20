@@ -17,8 +17,15 @@ const AuthProvider = ({ children }) => {
     setUser(authService.getUser());
   }, []);
 
+  const logout = () => {
+    authService.logout();
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

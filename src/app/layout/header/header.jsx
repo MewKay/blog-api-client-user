@@ -26,9 +26,7 @@ const LoggedMenu = ({ logout, username }) => {
 };
 
 const Header = () => {
-  const { user } = useAuth();
-
-  const logout = () => {}; // TO DO: Implement logout inside context
+  const { user, logout } = useAuth();
 
   return (
     <header>
