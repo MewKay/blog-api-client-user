@@ -21,7 +21,7 @@ const routes = [
     ],
   },
   {
-    path: "/log-in",
+    path: "log-in",
     element: <Login />,
     action: LoginAction,
   },

@@ -10,7 +10,7 @@ describe("App component", () => {
   it("should render home page by default", () => {
     render(<App />);
 
-    const blogListText = screen.getByText("This is home page");
+    const blogListText = screen.getByText(/This is home page/);
 
     expect(blogListText).toBeInTheDocument();
   });

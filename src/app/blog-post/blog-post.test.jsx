@@ -9,6 +9,22 @@ vi.mock("../home/home.jsx", () => ({
   default: () => <p>This is home</p>,
 }));
 
+const mapRoutesArray = (routes, callback) => {
+  const newRoutes = routes.map((route) => {
+    if (!route.children) {
+      return callback(route);
+    }
+
+    const newRoute = {
+      ...route,
+      children: mapRoutesArray(route.children, callback),
+    };
+    return callback(newRoute);
+  });
+
+  return newRoutes;
+};
+
 describe("Blog Post page", () => {
   it("display link to home on post", async () => {
     const user = userEvent.setup();
@@ -35,23 +51,22 @@ describe("Blog Post page", () => {
 
     const user = userEvent.setup();
 
-    const router = createMemoryRouter(
-      routes.map((route) => {
-        const isPathBlogPost = route.path == "/posts/:encodedId/:slug";
+    const testRoutes = mapRoutesArray(routes, (route) => {
+      const isPathBlogPost = route.path == "posts/:encodedId/:slug";
 
-        if (!isPathBlogPost) {
-          return route;
-        }
+      if (!isPathBlogPost) {
+        return route;
+      }
 
-        return {
-          ...route,
-          loader: () => Promise.reject(new Error("This is error")),
-        };
-      }),
-      {
-        initialEntries: ["/posts/notAnActualId/slug"],
-      },
-    );
+      return {
+        ...route,
+        loader: () => Promise.reject(new Error("This is error")),
+      };
+    });
+
+    const router = createMemoryRouter(testRoutes, {
+      initialEntries: ["/posts/notAnActualId/slug"],
+    });
 
     render(<RouterProvider router={router} />);
 
@@ -65,8 +80,8 @@ describe("Blog Post page", () => {
   });
 
   it("display error boundary on invalid id", async () => {
-    const testRouter = routes.map((route) => {
-      const isPathBlogPost = route.path == "/posts/:encodedId/:slug";
+    const testRoutes = mapRoutesArray(routes, (route) => {
+      const isPathBlogPost = route.path == "posts/:encodedId/:slug";
 
       if (!isPathBlogPost) {
         return route;
@@ -80,7 +95,7 @@ describe("Blog Post page", () => {
       return newRoute;
     });
 
-    const router = createMemoryRouter(testRouter, {
+    const router = createMemoryRouter(testRoutes, {
       initialEntries: ["/posts/invalidId/slug"],
     });
 
