@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import sqids from "@/lib/sqids";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import routes from "@/app/routes/routes";
+import ROUTES_PATH from "@/app/routes/path";
 
 vi.mock("../home/home.jsx", () => ({
   default: () => <p>This is home</p>,
@@ -30,7 +31,12 @@ describe("Blog Post page", () => {
     const user = userEvent.setup();
 
     const router = createMemoryRouter(routes, {
-      initialEntries: ["/posts/mockedid/slug"],
+      initialEntries: [
+        "/" +
+          ROUTES_PATH.blogPost
+            .replace(":encodedId", "mockedId")
+            .replace(":slug", "slug"),
+      ],
     });
 
     render(<RouterProvider router={router} />);
@@ -52,7 +58,7 @@ describe("Blog Post page", () => {
     const user = userEvent.setup();
 
     const testRoutes = mapRoutesArray(routes, (route) => {
-      const isPathBlogPost = route.path == "posts/:encodedId/:slug";
+      const isPathBlogPost = route.path === ROUTES_PATH.blogPost;
 
       if (!isPathBlogPost) {
         return route;
@@ -65,7 +71,12 @@ describe("Blog Post page", () => {
     });
 
     const router = createMemoryRouter(testRoutes, {
-      initialEntries: ["/posts/notAnActualId/slug"],
+      initialEntries: [
+        "/" +
+          ROUTES_PATH.blogPost
+            .replace(":encodedId", "notAnActualId")
+            .replace(":slug", "slug"),
+      ],
     });
 
     render(<RouterProvider router={router} />);
@@ -81,7 +92,7 @@ describe("Blog Post page", () => {
 
   it("display error boundary on invalid id", async () => {
     const testRoutes = mapRoutesArray(routes, (route) => {
-      const isPathBlogPost = route.path == "posts/:encodedId/:slug";
+      const isPathBlogPost = route.path === ROUTES_PATH.blogPost;
 
       if (!isPathBlogPost) {
         return route;
@@ -96,7 +107,12 @@ describe("Blog Post page", () => {
     });
 
     const router = createMemoryRouter(testRoutes, {
-      initialEntries: ["/posts/invalidId/slug"],
+      initialEntries: [
+        "/" +
+          ROUTES_PATH.blogPost
+            .replace(":encodedId", "invalidId")
+            .replace(":slug", "slug"),
+      ],
     });
 
     render(<RouterProvider router={router} />);

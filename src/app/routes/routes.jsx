@@ -1,3 +1,4 @@
+import ROUTES_PATH from "./path";
 import Layout from "../layout/layout";
 import Home from "../pages/home/home";
 import BlogPost from "../pages/blog-post/blog-post";
@@ -8,12 +9,12 @@ import LoginAction from "../pages/login/login.action";
 
 const routes = [
   {
-    path: "/",
+    path: ROUTES_PATH.home,
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
       {
-        path: "posts/:encodedId/:slug",
+        path: ROUTES_PATH.blogPost,
         element: <BlogPost />,
         errorElement: <BlogPostBoundary />,
         loader: blogPostLoader,
@@ -21,7 +22,7 @@ const routes = [
     ],
   },
   {
-    path: "log-in",
+    path: ROUTES_PATH.login,
     element: <Login />,
     action: LoginAction,
   },
