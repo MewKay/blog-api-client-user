@@ -8,16 +8,18 @@ const AuthContext = createContext({
     username: null,
     is_author: null,
   },
+  logout: () => {},
 });
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    window.addEventListener("storage", () => {
-      const user = authService.getUser();
-      setUser(user);
-    });
+    const updateUser = () => setUser(authService.getUser());
+
+    updateUser();
+
+    window.addEventListener("storage", updateUser);
   }, []);
 
   const logout = () => {
