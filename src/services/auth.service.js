@@ -9,6 +9,10 @@ const authService = {
 
     return response;
   },
+  logout: () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  },
   signup: (body) => api.post("/signup", body),
   getUser: () => JSON.parse(localStorage.getItem("user")),
 };
