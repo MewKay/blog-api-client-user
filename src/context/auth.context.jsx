@@ -14,7 +14,10 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setUser(authService.getUser());
+    window.addEventListener("storage", () => {
+      const user = authService.getUser();
+      setUser(user);
+    });
   }, []);
 
   const logout = () => {

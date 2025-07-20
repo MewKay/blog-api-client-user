@@ -6,12 +6,14 @@ const authService = {
 
     localStorage.setItem("user", JSON.stringify(response.user));
     localStorage.setItem("token", response.token);
+    window.dispatchEvent(new Event("storage"));
 
     return response;
   },
   logout: () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    window.dispatchEvent(new Event("storage"));
   },
   signup: (body) => api.post("/signup", body),
   getUser: () => JSON.parse(localStorage.getItem("user")),
