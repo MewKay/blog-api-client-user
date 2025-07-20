@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import sqids from "@/lib/sqids";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import routes from "../routes";
+import routes from "@/app/routes/routes";
 
 vi.mock("../home/home.jsx", () => ({
   default: () => <p>This is home</p>,

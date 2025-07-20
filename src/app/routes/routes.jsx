@@ -1,10 +1,10 @@
-import Layout from "./layout";
-import Home from "./home/home";
-import BlogPost from "./blog-post/blog-post";
-import BlogPostBoundary from "./blog-post/blog-post.boundary";
-import blogPostLoader from "./blog-post/blog-post.loader";
-import Login from "./login/login";
-import LoginAction from "./login/login.action";
+import Layout from "../layout/layout";
+import Home from "../pages/home/home";
+import BlogPost from "../pages/blog-post/blog-post";
+import BlogPostBoundary from "../pages/blog-post/blog-post.boundary";
+import blogPostLoader from "../pages/blog-post/blog-post.loader";
+import Login from "../pages/login/login";
+import LoginAction from "../pages/login/login.action";
 
 const routes = [
   {
