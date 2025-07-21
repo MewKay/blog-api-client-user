@@ -6,6 +6,7 @@ import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import routes from "@/app/routes/routes";
 import ROUTES_PATH from "@/app/routes/path";
 
+vi.mock("@/app/layout/header/header.jsx");
 vi.mock("../home/home.jsx", () => ({
   default: () => <p>This is home</p>,
 }));

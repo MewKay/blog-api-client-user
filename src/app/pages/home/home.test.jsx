@@ -10,9 +10,7 @@ import mockPosts from "@/testing/mocks/posts";
 import postService from "@/services/post.service";
 import userEvent from "@testing-library/user-event";
 
-vi.mock("@/app/layout/header/header.jsx", () => ({
-  default: () => <>This is header</>,
-}));
+vi.mock("@/app/layout/header/header.jsx");
 
 vi.mock("../blog-post/blog-post.jsx", () => ({
   default: function MockBlogPost() {
@@ -44,8 +42,6 @@ describe("Home page", () => {
     const mockBlogPostText = await screen.findByText(
       `This is blog post of ${mockPost.author.username}`,
     );
-
-    screen.debug();
 
     expect(mockBlogPostText).toBeInTheDocument();
   });
