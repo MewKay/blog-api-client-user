@@ -5,6 +5,7 @@ import routes from "@/app/routes/routes";
 import ROUTES_PATH from "@/app/routes/path";
 import authService from "@/services/auth.service";
 import setupPageRender from "@/testing/utils/setupPageRender";
+import testInputTyping from "@/testing/utils/testInputTyping";
 
 vi.mock("@/app/layout/header/header.jsx");
 vi.mock("../home/home.jsx");
@@ -13,34 +14,31 @@ const mockInputValue = {
   username: "JohnSlam",
   password: "wordpass",
 };
+const routesEntries = ["/" + ROUTES_PATH.login];
 
 describe("Log in page", () => {
   describe("Log in form", () => {
-    it("should be able to type on username input", async () => {
-      const user = userEvent.setup();
-      setupPageRender(routes, ["/" + ROUTES_PATH.login]);
-
-      const usernameInput = screen.getByLabelText(/username/i);
-      await user.type(usernameInput, mockInputValue.username);
-
-      expect(usernameInput).toHaveValue(mockInputValue.username);
-    });
-
-    it("should be able to type on password input", async () => {
-      const user = userEvent.setup();
-      setupPageRender(routes, ["/" + ROUTES_PATH.login]);
-
-      const passwordInput = screen.getByLabelText(/password/i);
-      await user.type(passwordInput, mockInputValue.password);
-
-      expect(passwordInput).toHaveValue(mockInputValue.password);
-    });
+    testInputTyping(
+      [
+        {
+          inputName: "username",
+          inputLabel: /username/i,
+          inputValue: mockInputValue.username,
+        },
+        {
+          inputName: "password",
+          inputLabel: /password/i,
+          inputValue: mockInputValue.password,
+        },
+      ],
+      routesEntries,
+    );
 
     it("should call auth service login and redirect to home when form is submitted", async () => {
       authService.login = vi.fn();
 
       const user = userEvent.setup();
-      setupPageRender(routes, ["/" + ROUTES_PATH.login]);
+      setupPageRender(routes, routesEntries);
 
       const usernameInput = screen.getByLabelText(/username/i);
       const passwordInput = screen.getByLabelText(/password/i);
