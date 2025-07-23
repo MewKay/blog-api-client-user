@@ -7,6 +7,7 @@ import blogPostLoader from "../pages/blog-post/blog-post.loader";
 import Login from "../pages/login/login";
 import LoginAction from "../pages/login/login.action";
 import SignUp from "../pages/signup/signup";
+import SignUpAction from "../pages/signup/signup.action";
 
 const routes = [
   {
@@ -30,6 +31,7 @@ const routes = [
   {
     path: ROUTES_PATH.signup,
     element: <SignUp />,
+    action: SignUpAction,
   },
 ];
 
