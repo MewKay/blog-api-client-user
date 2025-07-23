@@ -1,5 +1,11 @@
+import SignUpForm from "@/features/signup-form/signup-form";
+
 const SignUp = () => {
-  return <main>This is sign up</main>;
+  return (
+    <main>
+      <SignUpForm />
+    </main>
+  );
 };
 
 export default SignUp;
