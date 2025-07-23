@@ -1,14 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
-import {
-  createMemoryRouter,
-  RouterProvider,
-  useLoaderData,
-} from "react-router-dom";
+import { screen } from "@testing-library/react";
+import { useLoaderData } from "react-router-dom";
 import routes from "@/app/routes/routes";
 import mockPosts from "@/testing/mocks/posts";
 import postService from "@/services/post.service";
 import userEvent from "@testing-library/user-event";
+import setupPageRender from "@/testing/utils/setupPageRender";
 
 vi.mock("@/app/layout/header/header.jsx");
 
@@ -31,8 +28,7 @@ describe("Home page", () => {
     postService.getById = vi.fn().mockResolvedValueOnce(mockPost);
 
     const user = userEvent.setup();
-    const router = createMemoryRouter(routes, { initialEntries: ["/"] });
-    render(<RouterProvider router={router} />);
+    setupPageRender(routes, ["/"]);
 
     const mockPostLink = await screen.findByRole("link", {
       name: new RegExp(mockPost.title),

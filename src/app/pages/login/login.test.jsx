@@ -1,20 +1,13 @@
 import { describe, expect, it, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
-import { render, screen } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { screen } from "@testing-library/react";
 import routes from "@/app/routes/routes";
 import ROUTES_PATH from "@/app/routes/path";
 import authService from "@/services/auth.service";
+import setupPageRender from "@/testing/utils/setupPageRender";
 
 vi.mock("@/app/layout/header/header.jsx");
 vi.mock("../home/home.jsx");
-
-const setupRender = () => {
-  const router = createMemoryRouter(routes, {
-    initialEntries: ["/" + ROUTES_PATH.login],
-  });
-  render(<RouterProvider router={router} />);
-};
 
 const mockInputValue = {
   username: "JohnSlam",
@@ -25,7 +18,7 @@ describe("Log in page", () => {
   describe("Log in form", () => {
     it("should be able to type on username input", async () => {
       const user = userEvent.setup();
-      setupRender();
+      setupPageRender(routes, ["/" + ROUTES_PATH.login]);
 
       const usernameInput = screen.getByLabelText(/username/i);
       await user.type(usernameInput, mockInputValue.username);
@@ -35,7 +28,7 @@ describe("Log in page", () => {
 
     it("should be able to type on password input", async () => {
       const user = userEvent.setup();
-      setupRender();
+      setupPageRender(routes, ["/" + ROUTES_PATH.login]);
 
       const passwordInput = screen.getByLabelText(/password/i);
       await user.type(passwordInput, mockInputValue.password);
@@ -47,7 +40,7 @@ describe("Log in page", () => {
       authService.login = vi.fn();
 
       const user = userEvent.setup();
-      setupRender();
+      setupPageRender(routes, ["/" + ROUTES_PATH.login]);
 
       const usernameInput = screen.getByLabelText(/username/i);
       const passwordInput = screen.getByLabelText(/password/i);

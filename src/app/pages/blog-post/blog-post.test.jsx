@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import sqids from "@/lib/sqids";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import routes from "@/app/routes/routes";
 import ROUTES_PATH from "@/app/routes/path";
+import setupPageRender from "@/testing/utils/setupPageRender";
 
 vi.mock("@/app/layout/header/header.jsx");
 vi.mock("../home/home.jsx", () => ({
@@ -31,16 +31,12 @@ describe("Blog Post page", () => {
   it("display link to home on post", async () => {
     const user = userEvent.setup();
 
-    const router = createMemoryRouter(routes, {
-      initialEntries: [
-        "/" +
-          ROUTES_PATH.blogPost
-            .replace(":encodedId", "mockedId")
-            .replace(":slug", "slug"),
-      ],
-    });
-
-    render(<RouterProvider router={router} />);
+    setupPageRender(routes, [
+      "/" +
+        ROUTES_PATH.blogPost
+          .replace(":encodedId", "mockedId")
+          .replace(":slug", "slug"),
+    ]);
 
     const homeLink = await screen.findByRole("link", { name: /home/i });
     expect(homeLink).toBeInTheDocument();
@@ -71,16 +67,12 @@ describe("Blog Post page", () => {
       };
     });
 
-    const router = createMemoryRouter(testRoutes, {
-      initialEntries: [
-        "/" +
-          ROUTES_PATH.blogPost
-            .replace(":encodedId", "notAnActualId")
-            .replace(":slug", "slug"),
-      ],
-    });
-
-    render(<RouterProvider router={router} />);
+    setupPageRender(testRoutes, [
+      "/" +
+        ROUTES_PATH.blogPost
+          .replace(":encodedId", "notAnActualId")
+          .replace(":slug", "slug"),
+    ]);
 
     const homeLink = await screen.findByRole("link", { name: /home/i });
     expect(homeLink).toBeInTheDocument();
@@ -107,16 +99,12 @@ describe("Blog Post page", () => {
       return newRoute;
     });
 
-    const router = createMemoryRouter(testRoutes, {
-      initialEntries: [
-        "/" +
-          ROUTES_PATH.blogPost
-            .replace(":encodedId", "invalidId")
-            .replace(":slug", "slug"),
-      ],
-    });
-
-    render(<RouterProvider router={router} />);
+    setupPageRender(testRoutes, [
+      "/" +
+        ROUTES_PATH.blogPost
+          .replace(":encodedId", "invalidId")
+          .replace(":slug", "slug"),
+    ]);
 
     const errorText = await screen.findByText("This is error");
 
