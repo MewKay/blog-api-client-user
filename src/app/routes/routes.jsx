@@ -6,6 +6,7 @@ import BlogPostBoundary from "../pages/blog-post/blog-post.boundary";
 import blogPostLoader from "../pages/blog-post/blog-post.loader";
 import Login from "../pages/login/login";
 import LoginAction from "../pages/login/login.action";
+import SignUp from "../pages/signup/signup";
 
 const routes = [
   {
@@ -25,6 +26,10 @@ const routes = [
     path: ROUTES_PATH.login,
     element: <Login />,
     action: LoginAction,
+  },
+  {
+    path: ROUTES_PATH.signup,
+    element: <SignUp />,
   },
 ];
 
