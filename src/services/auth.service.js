@@ -17,6 +17,7 @@ const authService = {
   },
   signup: (body) => api.post("/signup", body),
   getUser: () => JSON.parse(localStorage.getItem("thyblog_user")),
+  getToken: () => localStorage.getItem("thyblog_token"),
 };
 
 export default authService;
