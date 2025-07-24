@@ -1,6 +1,10 @@
 import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
 import api from "../api-client";
 
+const fetchedData = { data: "This is some data" };
+const testBody = { data: "Test body" };
+const mockToken = "NotARealToken";
+
 describe("API Client", () => {
   beforeEach(() => {
     globalThis.fetch = vi.fn();
@@ -11,9 +15,6 @@ describe("API Client", () => {
   });
 
   describe("On OK response", () => {
-    const fetchedData = { data: "This is some data" };
-    const testBody = { data: "Test body" };
-
     it.each([
       {
         verb: "get",
@@ -72,6 +73,46 @@ describe("API Client", () => {
         );
 
         expect(result).toBe(fetchedData);
+      },
+    );
+  });
+
+  describe("With authentication token", () => {
+    it.each([
+      {
+        verb: "get",
+        apiCall: () => api.get("/test", mockToken),
+      },
+      {
+        verb: "post",
+        apiCall: () => api.post("/test", testBody, mockToken),
+      },
+      {
+        verb: "put",
+        apiCall: () => api.put("/test", testBody, mockToken),
+      },
+      {
+        verb: "delete",
+        apiCall: () => api.delete("/test", mockToken),
+      },
+    ])(
+      "calls fetch on $verb request with the proper auth header",
+      async ({ apiCall }) => {
+        fetch.mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve(fetchedData),
+        });
+
+        await apiCall();
+
+        expect(fetch).toHaveBeenCalledWith(
+          expect.stringContaining("/test"),
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Authorization: `Bearer ${mockToken}`,
+            }),
+          }),
+        );
       },
     );
   });
