@@ -4,6 +4,7 @@ exports[`NewCommentInput component > should render correctly 1`] = `
 <div>
   <form>
     <textarea
+      name="text"
       placeholder="Write a new comment..."
     />
     <button>
