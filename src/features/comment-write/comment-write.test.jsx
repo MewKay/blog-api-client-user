@@ -9,10 +9,14 @@ vi.mock("@/hooks/useAuth.js", () => ({
   default: vi.fn(),
 }));
 
+const updateComments = vi.fn();
+
 describe("Comment Write component", () => {
   it("should render log in and sign up links if user not logged in", () => {
     useAuth.mockReturnValue({ user: null, logout: vi.fn() });
-    render(<CommentWrite />, { wrapper: MemoryRouter });
+    render(<CommentWrite updateComments={updateComments} />, {
+      wrapper: MemoryRouter,
+    });
 
     const loginLink = screen.getByRole("link", { name: /log in/i });
     const signUpLink = screen.getByRole("link", { name: /sign up/i });
@@ -23,7 +27,9 @@ describe("Comment Write component", () => {
 
   it("should render a textarea input if user is logged", () => {
     useAuth.mockReturnValue({ user: mockUser, logout: vi.fn() });
-    render(<CommentWrite />, { wrapper: MemoryRouter });
+    render(<CommentWrite updateComments={updateComments} />, {
+      wrapper: MemoryRouter,
+    });
 
     const newCommentTextArea = screen.getByPlaceholderText(/new comment/i);
     const newCommentButton = screen.getByRole("button", { name: /send/i });

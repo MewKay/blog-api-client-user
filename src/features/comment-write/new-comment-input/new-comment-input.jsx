@@ -2,19 +2,23 @@ import { useParams } from "react-router-dom";
 import authService from "@/services/auth.service";
 import commentService from "@/services/comment.service";
 import sqids from "@/lib/sqids";
+import PropTypes from "prop-types";
 
-const NewCommentInput = () => {
+const NewCommentInput = ({ updateComments }) => {
   const { encodedId } = useParams();
 
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    const form = event.target;
+    const formData = new FormData(form);
 
     const postId = sqids.decode(encodedId);
     const text = formData.get("text");
     const token = authService.getToken();
 
     await commentService.createOne({ postId, text }, token);
+    form.reset();
+    updateComments();
   };
 
   return (
@@ -23,6 +27,10 @@ const NewCommentInput = () => {
       <button>Send</button>
     </form>
   );
+};
+
+NewCommentInput.propTypes = {
+  updateComments: PropTypes.func.isRequired,
 };
 
 export default NewCommentInput;
