@@ -1,28 +1,30 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import NewCommentInput from "./new-comment-input";
 import userEvent from "@testing-library/user-event";
-import sqids from "@/lib/sqids";
+import NewCommentInput from "./new-comment-input";
 import commentService from "@/services/comment.service";
 import authService from "@/services/auth.service";
+import useBlogComments from "@/hooks/useBlogComments";
 
-const mockPostId = 5;
+vi.mock("@/hooks/useBlogComments.js", () => ({
+  default: vi.fn(),
+}));
+
 const mockToken = "LetMeIn";
 const userComment = "Great post! Post more!";
-const updateComments = vi.fn();
 
 describe("NewCommentInput component", () => {
   it("should render correctly", () => {
-    const { container } = render(
-      <NewCommentInput updateComments={updateComments} />,
-    );
+    useBlogComments.mockReturnValueOnce({ postId: 5 });
+    const { container } = render(<NewCommentInput />);
 
     expect(container).toMatchSnapshot();
   });
 
   it("should be able to type on textbox", async () => {
+    useBlogComments.mockReturnValueOnce({ postId: 5 });
     const user = userEvent.setup();
-    render(<NewCommentInput updateComments={updateComments} />);
+    render(<NewCommentInput />);
 
     const commentTextBox = screen.getByPlaceholderText(/new comment/i);
     await user.type(commentTextBox, userComment);
@@ -31,12 +33,16 @@ describe("NewCommentInput component", () => {
   });
 
   it("should send the correct postId and text with an auth token, while resetting the form and calls updateComments", async () => {
-    sqids.decode = vi.fn().mockReturnValueOnce(mockPostId);
     authService.getToken = vi.fn().mockReturnValueOnce(mockToken);
     commentService.createOne = vi.fn();
+    const mockUpdateComments = vi.fn();
+    useBlogComments.mockReturnValueOnce({
+      postId: 5,
+      updateComments: mockUpdateComments,
+    });
 
     const user = userEvent.setup();
-    render(<NewCommentInput updateComments={updateComments} />);
+    render(<NewCommentInput />);
 
     const commentTextBox = screen.getByPlaceholderText(/new comment/i);
     const submitButton = screen.getByRole("button", { name: /send/i });
@@ -45,11 +51,11 @@ describe("NewCommentInput component", () => {
     await user.click(submitButton);
 
     expect(commentService.createOne).toHaveBeenCalledWith(
-      { postId: mockPostId, text: userComment },
+      { postId: 5, text: userComment },
       mockToken,
     );
 
     expect(commentTextBox).toHaveValue("");
-    expect(updateComments).toHaveBeenCalled();
+    expect(mockUpdateComments).toHaveBeenCalled();
   });
 });

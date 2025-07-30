@@ -1,29 +1,33 @@
-import PropTypes from "prop-types";
+import useBlogComments from "@/hooks/useBlogComments";
 import Comment from "../comment/comment";
 
-const CommentList = ({ commentList }) => {
-  return (
-    <ul>
-      {commentList.map((comment) => (
-        <li key={comment.id}>
-          <Comment comment={comment} />
-        </li>
-      ))}
-    </ul>
-  );
-};
+const CommentList = () => {
+  const { comments, updateComments } = useBlogComments();
+  const { data: commentList, loading, error } = comments;
 
-CommentList.propTypes = {
-  commentList: PropTypes.arrayOf(
-    PropTypes.shape({
-      user: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-      }),
-      text: PropTypes.string.isRequired,
-      edited_at: PropTypes.string.isRequired,
-      created_at: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  return (
+    <>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <div>
+          <p>
+            Something went wrong while fetching the comments. Please try again
+            later.
+          </p>
+          <button onClick={updateComments}>Retry</button>
+        </div>
+      ) : (
+        <ul>
+          {commentList.map((comment) => (
+            <li key={comment.id}>
+              <Comment comment={comment} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
 };
 
 export default CommentList;
