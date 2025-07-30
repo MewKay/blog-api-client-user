@@ -9,6 +9,7 @@ const AuthContext = createContext({
     is_author: null,
   },
   logout: () => {},
+  isAuthenticated: false,
 });
 
 const AuthProvider = ({ children }) => {
@@ -27,8 +28,10 @@ const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const isAuthenticated = user !== null;
+
   return (
-    <AuthContext.Provider value={{ user, logout }}>
+    <AuthContext.Provider value={{ user, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

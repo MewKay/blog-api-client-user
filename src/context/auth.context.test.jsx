@@ -14,11 +14,12 @@ vi.mock("@/services/auth.service", () => ({
 }));
 
 const MockChildComponent = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, isAuthenticated } = useContext(AuthContext);
 
   return (
     <>
       <p>{user?.username}</p>
+      {isAuthenticated && <p>User is logged in</p>}
       <button onClick={logout}>logging out...</button>
     </>
   );
@@ -37,6 +38,24 @@ describe("Auth Context", () => {
     const usernameText = screen.getByText(mockUser.username);
 
     expect(usernameText).toBeInTheDocument();
+  });
+
+  it("provides isAuthenticated boolean to child components", () => {
+    authService.getUser.mockReturnValueOnce(mockUser);
+
+    const { rerender } = render(
+      <AuthProvider>
+        <MockChildComponent />
+      </AuthProvider>,
+    );
+
+    const authText = screen.getByText(/logged in/i);
+    expect(authText).toBeInTheDocument();
+
+    authService.getUser.mockReturnValueOnce(null);
+
+    rerender();
+    expect(authText).not.toBeInTheDocument();
   });
 
   it("provides a logout function to child components", async () => {
