@@ -1,28 +1,36 @@
 import authService from "@/services/auth.service";
 import commentService from "@/services/comment.service";
 import useBlogComments from "@/hooks/useBlogComments";
+import CommentForm from "@/components/comment-form/comment-form";
+import { useState } from "react";
 
 const NewCommentInput = () => {
   const { postId, updateComments } = useBlogComments();
+  const [comment, setComment] = useState("");
 
-  const handleCommentSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const formData = new FormData(form);
+  const handleResetForm = () => {
+    setComment("");
+  };
 
-    const text = formData.get("text");
+  const handleCommentSubmit = async () => {
+    const text = comment;
     const token = authService.getToken();
 
     await commentService.createOne({ postId, text }, token);
-    form.reset();
+    handleResetForm();
     updateComments();
   };
 
   return (
-    <form onSubmit={handleCommentSubmit}>
-      <textarea name="text" placeholder="Write a new comment..."></textarea>
-      <button>Send</button>
-    </form>
+    <>
+      <CommentForm
+        handleCommentSubmit={handleCommentSubmit}
+        handleResetForm={handleResetForm}
+        placeholder="Write a new comment..."
+        inputValue={comment}
+        setInputValue={setComment}
+      />
+    </>
   );
 };
 

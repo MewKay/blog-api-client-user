@@ -11,7 +11,7 @@ const CommentForm = ({
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        handleCommentSubmit();
+        handleCommentSubmit(event);
       }}
     >
       <textarea
