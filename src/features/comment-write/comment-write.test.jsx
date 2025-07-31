@@ -1,17 +1,30 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import CommentWrite from "./comment-write";
 import useAuth from "@/hooks/useAuth";
-import mockUser from "@/testing/mocks/users";
+import useBlogComments from "@/hooks/useBlogComments";
+import mockComments from "@/testing/mocks/comments";
+
+vi.mock("@/hooks/useBlogComments.js", () => ({
+  default: vi.fn(),
+}));
 
 vi.mock("@/hooks/useAuth.js", () => ({
   default: vi.fn(),
 }));
 
 describe("Comment Write component", () => {
+  const mockComment = mockComments[0];
+
+  beforeEach(() => {
+    useBlogComments.mockReturnValue({
+      commentToEdit: null,
+    });
+  });
+
   it("should render log in and sign up links if user not logged in", () => {
-    useAuth.mockReturnValue({ user: null, logout: vi.fn() });
+    useAuth.mockReturnValue({ isAuthenticated: false });
     render(<CommentWrite />, {
       wrapper: MemoryRouter,
     });
@@ -23,16 +36,33 @@ describe("Comment Write component", () => {
     expect(signUpLink).toBeInTheDocument();
   });
 
-  it("should render a textarea input if user is logged", () => {
-    useAuth.mockReturnValue({ user: mockUser, logout: vi.fn() });
+  it("should render a new comment input if user is logged", () => {
+    useAuth.mockReturnValue({ isAuthenticated: true });
     render(<CommentWrite />, {
       wrapper: MemoryRouter,
     });
 
     const newCommentTextArea = screen.getByPlaceholderText(/new comment/i);
-    const newCommentButton = screen.getByRole("button", { name: /send/i });
+    const submitButton = screen.getByRole("button", { name: /send/i });
 
     expect(newCommentTextArea).toBeInTheDocument();
-    expect(newCommentButton).toBeInTheDocument();
+    expect(submitButton).toBeInTheDocument();
+  });
+
+  it("should render a textarea input with the comment to input issued if user is logged", () => {
+    useAuth.mockReturnValue({ isAuthenticated: true });
+    useBlogComments.mockReturnValue({
+      commentToEdit: mockComment,
+    });
+
+    render(<CommentWrite />, {
+      wrapper: MemoryRouter,
+    });
+
+    const editCommentTextArea = screen.getByDisplayValue(mockComment.text);
+    const submitButton = screen.getByRole("button", { name: /send/i });
+
+    expect(editCommentTextArea).toBeInTheDocument();
+    expect(submitButton).toBeInTheDocument();
   });
 });
