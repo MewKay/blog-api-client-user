@@ -1,9 +1,15 @@
+import useAuth from "@/hooks/useAuth";
 import { formatDistanceToNowStrict } from "date-fns";
 import PropTypes from "prop-types";
 
 const Comment = ({ comment }) => {
+  const { user: currentUser, isAuthenticated } = useAuth();
   const { user, text, edited_at, created_at } = comment;
+
+  const isCommentOfCurrentUser =
+    isAuthenticated && currentUser.username === comment.user.username;
   const isCommentEdited = edited_at !== created_at;
+
   const formattedDate = formatDistanceToNowStrict(created_at, {
     addSuffix: true,
   });
@@ -18,6 +24,7 @@ const Comment = ({ comment }) => {
         </span>
       </div>
       <p>{text}</p>
+      {isCommentOfCurrentUser && <button>Edit</button>}
     </>
   );
 };
