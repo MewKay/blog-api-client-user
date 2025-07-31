@@ -5,6 +5,7 @@ import EditCommentInput from "./edit-comment-input";
 import authService from "@/services/auth.service";
 import useBlogComments from "@/hooks/useBlogComments";
 import mockComments from "@/testing/mocks/comments";
+import commentService from "@/services/comment.service";
 
 vi.mock("@/hooks/useBlogComments.js", () => ({
   default: vi.fn(),
@@ -36,6 +37,7 @@ describe("EditCommentInput component", () => {
     mockSetCommentToEdit = vi.fn();
     mockUpdateComments = vi.fn();
     authService.getToken = vi.fn().mockReturnValue(mockToken);
+    commentService.updateOne = vi.fn();
 
     useBlogComments.mockReturnValue({
       postId: 5,
@@ -57,6 +59,27 @@ describe("EditCommentInput component", () => {
     await user.type(textarea, additionalText);
 
     expect(textarea).toHaveValue(mockComment.text + additionalText);
+  });
+
+  it("submit the updated comment with postId, commentId and token then reset the form and finally calls updateComments", async () => {
+    const { user, textarea, submitButton } = setup();
+
+    const additionalText = " plus some.";
+    await user.type(textarea, additionalText);
+    await user.click(submitButton);
+
+    expect(commentService.updateOne).toHaveBeenCalledWith(
+      {
+        postId: 5,
+        commentId: mockComment.id,
+        text: mockComment.text + additionalText,
+      },
+      mockToken,
+    );
+
+    expect(textarea).toHaveValue("");
+    expect(mockUpdateComments).toHaveBeenCalledOnce();
+    expect(mockSetCommentToEdit).toHaveBeenCalledWith(null);
   });
 
   it("should clear the form and call setCommentToEdit with null when clicking cancel button", async () => {

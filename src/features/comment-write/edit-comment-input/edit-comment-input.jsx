@@ -2,6 +2,7 @@ import { useState } from "react";
 import authService from "@/services/auth.service";
 import useBlogComments from "@/hooks/useBlogComments";
 import CommentForm from "@/components/comment-form/comment-form";
+import commentService from "@/services/comment.service";
 
 const EditCommentInput = () => {
   const { postId, commentToEdit, setCommentToEdit, updateComments } =
@@ -15,10 +16,13 @@ const EditCommentInput = () => {
   };
 
   const handleCommentSubmit = async () => {
-    const text = comment;
+    const newText = comment;
     const token = authService.getToken();
 
-    // TO DO: Send update comment API
+    await commentService.updateOne(
+      { postId, commentId: commentToEdit.id, text: newText },
+      token,
+    );
 
     handleResetForm();
     updateComments();
