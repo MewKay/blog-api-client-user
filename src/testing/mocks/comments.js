@@ -5,7 +5,7 @@ const mockComments = [
     created_at: new Date(2017, 10, 24).toISOString(),
     edited_at: new Date(2017, 10, 24).toISOString(),
     user: {
-      username: "McComment",
+      username: "John Toe",
     },
   },
   {

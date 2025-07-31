@@ -1,12 +1,20 @@
 import commentService from "@/services/comment.service";
 import fetchReducer from "@/hooks/fetchReducer";
-import { createContext, useCallback, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import PropTypes from "prop-types";
 
 const BlogCommentsContext = createContext({
   postId: null,
   comments: { data: [], loading: true, error: null },
   updateComments: () => {},
+  commentToEdit: null,
+  setCommentToEdit: () => {},
 });
 
 const useFetchComments = (postId) => {
@@ -39,9 +47,18 @@ const useFetchComments = (postId) => {
 
 const BlogCommentsProvider = ({ children, postId }) => {
   const { comments, updateComments } = useFetchComments(postId);
+  const [commentToEdit, setCommentToEdit] = useState(null);
 
   return (
-    <BlogCommentsContext.Provider value={{ postId, comments, updateComments }}>
+    <BlogCommentsContext.Provider
+      value={{
+        postId,
+        comments,
+        updateComments,
+        commentToEdit,
+        setCommentToEdit,
+      }}
+    >
       {children}
     </BlogCommentsContext.Provider>
   );

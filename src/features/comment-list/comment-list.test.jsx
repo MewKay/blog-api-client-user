@@ -6,7 +6,9 @@ import useBlogComments from "@/hooks/useBlogComments";
 import userEvent from "@testing-library/user-event";
 
 vi.mock("@/hooks/useBlogComments.js", () => ({
-  default: vi.fn(),
+  default: vi.fn(() => ({
+    comments: {},
+  })),
 }));
 
 describe("CommentList component", () => {
@@ -17,6 +19,7 @@ describe("CommentList component", () => {
         loading: true,
         error: null,
       },
+      updateComments: vi.fn(),
     });
 
     render(<CommentList />);
@@ -55,6 +58,7 @@ describe("CommentList component", () => {
         loading: false,
         error: null,
       },
+      updateComments: vi.fn(),
     });
 
     render(<CommentList />);

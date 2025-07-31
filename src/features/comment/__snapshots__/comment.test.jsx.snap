@@ -4,7 +4,7 @@ exports[`Comment component > renders correctly 1`] = `
 <div>
   <div>
     <h6>
-      McComment
+      John Toe
     </h6>
     <span>
       <p>
@@ -16,5 +16,8 @@ exports[`Comment component > renders correctly 1`] = `
   <p>
     I'm commentin and criticizin
   </p>
+  <button>
+    Edit
+  </button>
 </div>
 `;

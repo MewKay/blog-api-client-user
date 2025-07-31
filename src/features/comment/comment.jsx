@@ -1,9 +1,11 @@
 import useAuth from "@/hooks/useAuth";
+import useBlogComments from "@/hooks/useBlogComments";
 import { formatDistanceToNowStrict } from "date-fns";
 import PropTypes from "prop-types";
 
 const Comment = ({ comment }) => {
   const { user: currentUser, isAuthenticated } = useAuth();
+  const { setCommentToEdit } = useBlogComments();
   const { user, text, edited_at, created_at } = comment;
 
   const isCommentOfCurrentUser =
@@ -24,7 +26,9 @@ const Comment = ({ comment }) => {
         </span>
       </div>
       <p>{text}</p>
-      {isCommentOfCurrentUser && <button>Edit</button>}
+      {isCommentOfCurrentUser && (
+        <button onClick={() => setCommentToEdit(comment)}>Edit</button>
+      )}
     </>
   );
 };
