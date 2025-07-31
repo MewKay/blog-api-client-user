@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EditCommentInput component > renders correctly 1`] = `
+<div>
+  <form>
+    <textarea
+      name="text"
+    >
+      I'm commentin and criticizin
+    </textarea>
+    <div>
+      <button
+        type="submit"
+      >
+        Send
+      </button>
+      <button
+        type="reset"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+`;
