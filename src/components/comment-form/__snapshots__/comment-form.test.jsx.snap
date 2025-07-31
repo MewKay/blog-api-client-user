@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Comment form component > renders correctly 1`] = `
+<div>
+  <form>
+    <textarea
+      name="text"
+      placeholder="This is placeholder"
+    >
+      This is value
+    </textarea>
+    <div>
+      <button
+        type="submit"
+      >
+        Send
+      </button>
+      <button
+        type="reset"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+`;
