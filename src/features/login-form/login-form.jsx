@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { Form } from "react-router-dom";
 import Input from "@/components/input/input";
+import loginSchema from "@/constants/loginSchema";
+import ranges from "@/constants/validationRanges";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { errors, isFormValid } = loginSchema.validateInputs({
+    username,
+    password,
+  });
 
   return (
     <Form method="post">
@@ -13,6 +20,9 @@ const LoginForm = () => {
         name="username"
         value={username}
         setValue={setUsername}
+        errorMessage={errors.username}
+        minLength={ranges.username.min}
+        maxLength={ranges.username.max}
       >
         Username
       </Input>
@@ -22,11 +32,14 @@ const LoginForm = () => {
         name="password"
         value={password}
         setValue={setPassword}
+        errorMessage={errors.password}
+        minLength={ranges.password.min}
+        maxLength={ranges.password.max}
       >
         Password
       </Input>
 
-      <button>Log in</button>
+      <button disabled={!isFormValid}>Log in</button>
     </Form>
   );
 };
