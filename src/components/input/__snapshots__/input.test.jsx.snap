@@ -2,11 +2,16 @@
 
 exports[`Input component > renders correctly 1`] = `
 <div>
-  <label>
-    Label :
-    <input
-      value="Writings"
-    />
-  </label>
+  <div>
+    <label>
+      Label :
+      <input
+        value="Writings"
+      />
+    </label>
+    <p>
+      Something is wrong
+    </p>
+  </div>
 </div>
 `;

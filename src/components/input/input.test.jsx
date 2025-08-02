@@ -6,6 +6,7 @@ import userEvent from "@testing-library/user-event";
 const mockProps = {
   value: "Writings",
   setValue: vi.fn(),
+  errorMessage: "Something is wrong",
 };
 
 describe("Input component", () => {
@@ -27,5 +28,17 @@ describe("Input component", () => {
     await user.type(input, "BC");
 
     expect(mockProps.setValue).toHaveBeenCalledTimes(3);
+  });
+
+  it("hides error message if value is empty", () => {
+    render(
+      <Input {...mockProps} value="">
+        Label :
+      </Input>,
+    );
+
+    const errorMessage = screen.queryByText(mockProps.errorMessage);
+
+    expect(errorMessage).not.toBeInTheDocument();
   });
 });
