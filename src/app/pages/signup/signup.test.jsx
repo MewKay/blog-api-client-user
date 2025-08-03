@@ -14,9 +14,27 @@ vi.mock("../login/login.jsx", () => ({
 const mockInputValue = {
   username: "JohnJohn",
   password: "wordpass",
-  confirm_password: "pordwass",
+  confirm_password: "wordpass",
 };
 const routeEntries = ["/" + ROUTES_PATH.signup];
+
+const setup = () => {
+  const user = userEvent.setup();
+  setupPageRender(routes, routeEntries);
+
+  const usernameInput = screen.getByLabelText(/username/i);
+  const passwordInput = screen.getByLabelText(/^password$/i);
+  const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
+  const submitButton = screen.getByRole("button", { name: /sign up/i });
+
+  return {
+    user,
+    usernameInput,
+    passwordInput,
+    confirmPasswordInput,
+    submitButton,
+  };
+};
 
 describe("Sign up page", () => {
   describe("Sign up form", () => {
@@ -43,17 +61,18 @@ describe("Sign up page", () => {
 
     it("should call auth service sign up and redirect to login page", async () => {
       authService.signup = vi.fn();
-      const user = userEvent.setup();
-      setupPageRender(routes, routeEntries);
+      const {
+        user,
+        usernameInput,
+        passwordInput,
+        confirmPasswordInput,
+        submitButton,
+      } = setup();
 
-      const usernameInput = screen.getByLabelText(/username/i);
-      const passwordInput = screen.getByLabelText(/^password$/i);
-      const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
       await user.type(usernameInput, mockInputValue.username);
       await user.type(passwordInput, mockInputValue.password);
       await user.type(confirmPasswordInput, mockInputValue.confirm_password);
 
-      const submitButton = screen.getByRole("button", { name: /sign up/i });
       await user.click(submitButton);
 
       expect(authService.signup).toHaveBeenCalledWith(mockInputValue);
@@ -61,6 +80,29 @@ describe("Sign up page", () => {
       const loginText = await screen.findByText(/This is log in page/);
 
       expect(loginText).toBeInTheDocument();
+    });
+
+    it("should not be able to submit if form is invalid", async () => {
+      authService.signup = vi.fn();
+      const {
+        user,
+        usernameInput,
+        passwordInput,
+        confirmPasswordInput,
+        submitButton,
+      } = setup();
+
+      await user.type(usernameInput, mockInputValue.username);
+      await user.type(passwordInput, mockInputValue.password);
+      await user.type(confirmPasswordInput, "not matching password");
+
+      await user.click(submitButton);
+
+      expect(authService.signup).not.toHaveBeenCalledWith(mockInputValue);
+
+      const loginText = screen.queryByText(/This is log in page/);
+
+      expect(loginText).not.toBeInTheDocument();
     });
   });
 });

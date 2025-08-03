@@ -1,3 +1,4 @@
+import signUpSchema from "@/constants/signup-schema";
 import authService from "@/services/auth.service";
 import { redirect } from "react-router-dom";
 
@@ -9,6 +10,12 @@ const SignUpAction = async ({ request }) => {
     password: formData.get("password"),
     confirm_password: formData.get("confirm_password"),
   };
+
+  const validator = signUpSchema.validateInputs(signUpData);
+
+  if (!validator.isFormValid) {
+    return { error: "Provided inputs are invalid" };
+  }
 
   await authService.signup(signUpData);
 

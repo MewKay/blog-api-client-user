@@ -1,4 +1,6 @@
 import Input from "@/components/input/input";
+import signUpSchema from "@/constants/signup-schema";
+import ranges from "@/constants/validationRanges";
 import { useState } from "react";
 import { Form } from "react-router-dom";
 
@@ -7,6 +9,12 @@ const SignUpForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const { errors, isFormValid } = signUpSchema.validateInputs({
+    username,
+    password,
+    confirm_password: confirmPassword,
+  });
+
   return (
     <Form method="post">
       <Input
@@ -14,6 +22,9 @@ const SignUpForm = () => {
         name="username"
         value={username}
         setValue={setUsername}
+        errorMessage={errors.username}
+        minLength={ranges.username.min}
+        maxLength={ranges.username.max}
       >
         Username
       </Input>
@@ -22,6 +33,9 @@ const SignUpForm = () => {
         name="password"
         value={password}
         setValue={setPassword}
+        errorMessage={errors.password}
+        minLength={ranges.password.min}
+        maxLength={ranges.password.max}
       >
         Password
       </Input>
@@ -30,11 +44,14 @@ const SignUpForm = () => {
         name="confirm_password"
         value={confirmPassword}
         setValue={setConfirmPassword}
+        errorMessage={errors.confirm_password}
+        minLength={ranges.password.min}
+        maxLength={ranges.password.max}
       >
         Confirm Password
       </Input>
 
-      <button>Sign Up</button>
+      <button disabled={!isFormValid}>Sign Up</button>
     </Form>
   );
 };
