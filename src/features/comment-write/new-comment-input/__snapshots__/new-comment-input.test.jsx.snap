@@ -9,6 +9,7 @@ exports[`NewCommentInput component > should render correctly 1`] = `
     />
     <div>
       <button
+        disabled=""
         type="submit"
       >
         Send
@@ -19,6 +20,7 @@ exports[`NewCommentInput component > should render correctly 1`] = `
         Cancel
       </button>
     </div>
+    <p />
   </form>
 </div>
 `;

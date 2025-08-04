@@ -21,6 +21,7 @@ exports[`Comment form component > renders correctly 1`] = `
         Cancel
       </button>
     </div>
+    <p />
   </form>
 </div>
 `;

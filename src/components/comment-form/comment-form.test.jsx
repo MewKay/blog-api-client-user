@@ -1,80 +1,99 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CommentForm from "./comment-form";
+import ranges from "@/constants/validationRanges";
 
-//Mock props
-const handleCommentSubmit = vi.fn();
-const handleResetForm = vi.fn();
-const placeholder = "This is placeholder";
-const inputValue = "This is value";
-const setInputValue = vi.fn();
+let mockProps;
+
+const setup = (props) => {
+  const user = userEvent.setup();
+
+  const component = render(<CommentForm {...mockProps} {...props} />);
+
+  const textarea = screen.getByPlaceholderText(mockProps.placeholder);
+  const submitButton = screen.getByRole("button", { name: /Send/i });
+  const resetButton = screen.getByRole("button", { name: /Cancel/i });
+  const errorMessage = screen.queryByText(/Comment is required to be between/);
+
+  return {
+    user,
+    component,
+    textarea,
+    submitButton,
+    resetButton,
+    errorMessage,
+    unmount: component.unmount,
+  };
+};
 
 describe("Comment form component", () => {
-  it("renders correctly", () => {
-    const { container } = render(
-      <CommentForm
-        handleCommentSubmit={handleCommentSubmit}
-        handleResetForm={handleResetForm}
-        placeholder={placeholder}
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-      />,
-    );
+  beforeEach(() => {
+    mockProps = {
+      handleCommentSubmit: vi.fn(),
+      handleResetForm: vi.fn(),
+      placeholder: "This is placeholder",
+      inputValue: "This is value",
+      setInputValue: vi.fn(),
+    };
+  });
 
-    expect(container).toMatchSnapshot();
+  it("renders correctly", () => {
+    const { component } = setup();
+
+    expect(component.container).toMatchSnapshot();
   });
 
   it("calls setInputValue on textarea typing", async () => {
-    const user = userEvent.setup();
+    const { user, textarea } = setup();
 
-    render(
-      <CommentForm
-        handleCommentSubmit={handleCommentSubmit}
-        placeholder={placeholder}
-        setInputValue={setInputValue}
-      />,
-    );
-
-    const textarea = screen.getByPlaceholderText(placeholder);
     await user.type(textarea, "ABC");
-
-    expect(setInputValue).toHaveBeenCalledTimes(3);
+    expect(mockProps.setInputValue).toHaveBeenCalledTimes(3);
 
     await user.type(textarea, "YZ");
-    expect(setInputValue).toHaveBeenCalledTimes(5);
+    expect(mockProps.setInputValue).toHaveBeenCalledTimes(5);
   });
 
   it("calls handleCommentSubmit on Send button click", async () => {
-    const user = userEvent.setup();
-
-    render(
-      <CommentForm
-        handleCommentSubmit={handleCommentSubmit}
-        setInputValue={setInputValue}
-      />,
-    );
-
-    const submitButton = screen.getByRole("button", { name: /Send/i });
+    const { user, submitButton } = setup();
     await user.click(submitButton);
 
-    expect(handleCommentSubmit).toHaveBeenCalledOnce();
+    expect(mockProps.handleCommentSubmit).toHaveBeenCalledOnce();
   });
 
   it("calls handleResetForm on Cancel button click", async () => {
-    const user = userEvent.setup();
-
-    render(
-      <CommentForm
-        handleCommentSubmit={handleCommentSubmit}
-        handleResetForm={handleResetForm}
-        setInputValue={setInputValue}
-      />,
-    );
-
-    const resetButton = screen.getByRole("button", { name: /Cancel/i });
+    const { user, resetButton } = setup();
     await user.click(resetButton);
 
-    expect(handleResetForm).toHaveBeenCalledOnce();
+    expect(mockProps.handleResetForm).toHaveBeenCalledOnce();
+  });
+
+  it("shows when form invalid but only when textarea value is not empty", () => {
+    const tooLongComment = (() => {
+      let comment = "";
+      for (let i = 0; i < ranges.commentText.max + 1; i++) {
+        comment += "A";
+      }
+
+      return comment;
+    })();
+
+    const { errorMessage: firstErrorMessage, unmount } = setup({
+      inputValue: "",
+    });
+    expect(firstErrorMessage).not.toBeInTheDocument();
+    unmount();
+
+    const { errorMessage: secondErrorMessage } = setup({
+      inputValue: tooLongComment,
+    });
+    expect(secondErrorMessage).toBeInTheDocument();
+  });
+
+  it("does not call handleCommentSubmit if form is invalid", async () => {
+    const { user, submitButton } = setup({ inputValue: "" });
+    await user.click(submitButton);
+
+    expect(mockProps.handleCommentSubmit).not.toHaveBeenCalled();
   });
 });
