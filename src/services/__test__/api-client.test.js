@@ -1,5 +1,12 @@
 import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
 import api from "../api-client";
+import APIError from "@/lib/errors/api.error";
+import BadRequestError from "@/lib/errors/bad-request.error";
+import AuthError from "@/lib/errors/auth.error";
+import NotFoundError from "@/lib/errors/not-found.error";
+import ServerError from "@/lib/errors/server.error";
+import NetworkError from "@/lib/errors/network.error";
+import ForbiddenError from "@/lib/errors/forbidden.error";
 
 const fetchedData = { data: "This is some data" };
 const testBody = { data: "Test body" };
@@ -117,16 +124,56 @@ describe("API Client", () => {
     );
   });
 
-  it("throws on failed response", async () => {
-    const errorMessage = "It have to be this way, failing.";
-    const thrownMessage = `API Response status 500 : ${errorMessage}`;
+  describe("Response failure", () => {
+    it.each([
+      {
+        name: "Bad request",
+        error: BadRequestError,
+        responseStatus: 400,
+      },
+      {
+        name: "Unauthorized",
+        error: AuthError,
+        responseStatus: 401,
+      },
+      {
+        name: "Forbidden",
+        error: ForbiddenError,
+        responseStatus: 403,
+      },
+      {
+        name: "Not found",
+        error: NotFoundError,
+        responseStatus: 404,
+      },
+      {
+        name: "Server",
+        error: ServerError,
+        responseStatus: 500,
+      },
+      {
+        name: "Unexpected",
+        error: APIError,
+        responseStatus: 456,
+      },
+    ])(
+      "throws $name error on relevant status code",
+      async ({ error, responseStatus }) => {
+        fetch.mockResolvedValue({
+          ok: false,
+          json: () =>
+            Promise.resolve({ error: "It have to be this way, failing." }),
+          status: responseStatus,
+        });
 
-    fetch.mockResolvedValueOnce({
-      ok: false,
-      json: () => Promise.resolve({ error: errorMessage }),
-      status: 500,
+        await expect(api.get("/failed-test")).rejects.toThrowError(error);
+      },
+    );
+
+    it("throws NetworkError when fetch fails", async () => {
+      fetch.mockRejectedValue(new TypeError());
+
+      await expect(api.get("/failed-test")).rejects.toThrowError(NetworkError);
     });
-
-    await expect(api.get("/failed-test")).rejects.toThrow(thrownMessage);
   });
 });

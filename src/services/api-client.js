@@ -1,3 +1,11 @@
+import APIError from "@/lib/errors/api.error";
+import AuthError from "@/lib/errors/auth.error";
+import BadRequestError from "@/lib/errors/bad-request.error";
+import ForbiddenError from "@/lib/errors/forbidden.error";
+import NetworkError from "@/lib/errors/network.error";
+import NotFoundError from "@/lib/errors/not-found.error";
+import ServerError from "@/lib/errors/server.error";
+
 const BASE_URL = import.meta.env.VITE_APP_API_URL;
 
 const request = async function fetchDataFromAPIWithHeaders(
@@ -25,15 +33,30 @@ const request = async function fetchDataFromAPIWithHeaders(
     const response = await fetch(apiUrl, config);
 
     if (!response.ok) {
-      const errorMessage = (await response.json()).error;
-      throw new Error(
-        `API Response status ${response.status}${errorMessage ? " : " + errorMessage : ""}`,
-      );
+      const data = await response.json();
+
+      switch (response.status) {
+        case 400:
+          throw new BadRequestError("Client error", data);
+        case 401:
+          throw new AuthError(data);
+        case 403:
+          throw new ForbiddenError(data);
+        case 404:
+          throw new NotFoundError(data);
+        case 500:
+          throw new ServerError(data);
+        default:
+          throw new APIError("Unexpected error", response.status, data);
+      }
     }
 
     return response.json();
   } catch (error) {
-    console.error(error.message);
+    if (error.name === "TypeError" && !error.response) {
+      throw new NetworkError("Failed to connect to server");
+    }
+
     throw error;
   }
 };
