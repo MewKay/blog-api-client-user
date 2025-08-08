@@ -11,6 +11,8 @@ import mockPosts from "@/testing/mocks/posts";
 import mockComments from "@/testing/mocks/comments";
 
 import setupPageRender from "@/testing/utils/setupPageRender";
+import NotFoundError from "@/lib/errors/not-found.error";
+import BadRequestError from "@/lib/errors/bad-request.error";
 
 vi.mock("@/app/layout/header/header.jsx");
 vi.mock("../home/home.jsx");
@@ -47,6 +49,21 @@ const mapRoutesArray = (routes, callback) => {
   });
 
   return newRoutes;
+};
+
+const modifyPath = (routes, routePath, newRoute) => {
+  return mapRoutesArray(routes, (route) => {
+    const isRoutePath = route.path === routePath;
+
+    if (!isRoutePath) {
+      return route;
+    }
+
+    return {
+      ...route,
+      ...newRoute,
+    };
+  });
 };
 
 const assertPostFetched = async () => {
@@ -108,17 +125,10 @@ describe("Blog Post page", () => {
   it("display link to home on error boundary", async () => {
     const user = userEvent.setup();
 
-    const testRoutes = mapRoutesArray(routes, (route) => {
-      const isPathBlogPost = route.path === ROUTES_PATH.blogPost;
-
-      if (!isPathBlogPost) {
-        return route;
-      }
-
-      return {
-        ...route,
-        loader: () => Promise.reject(new Error("This is error")),
-      };
+    const testRoutes = modifyPath(routes, ROUTES_PATH.blogPost, {
+      loader: () => {
+        throw new NotFoundError();
+      },
     });
 
     setupPageRender(testRoutes, [
@@ -137,23 +147,30 @@ describe("Blog Post page", () => {
     expect(homeText).toBeInTheDocument();
   });
 
+  it("does not display error boundary if not BadRequestError or NotFoundError", async () => {
+    const testRoutes = modifyPath(routes, ROUTES_PATH.blogPost, {
+      loader: () => {
+        throw new Error();
+      },
+    });
+
+    setupPageRender(testRoutes, [
+      "/" +
+        ROUTES_PATH.blogPost
+          .replace(":encodedId", "mockedId")
+          .replace(":slug", mockPost.slug),
+    ]);
+
+    const homeLink = screen.queryByRole("link", { name: /home/i });
+    expect(homeLink).not.toBeInTheDocument();
+  });
+
   it("display error boundary on invalid id", async () => {
     sqids.decode = vi.fn().mockImplementationOnce(() => {
-      throw new Response();
+      throw new BadRequestError();
     });
-    const testRoutes = mapRoutesArray(routes, (route) => {
-      const isPathBlogPost = route.path === ROUTES_PATH.blogPost;
-
-      if (!isPathBlogPost) {
-        return route;
-      }
-
-      const newRoute = {
-        ...route,
-        errorElement: <>This is error</>,
-      };
-
-      return newRoute;
+    const testRoutes = modifyPath(routes, ROUTES_PATH.blogPost, {
+      errorElement: <>This is error</>,
     });
 
     setupPageRender(testRoutes, [
