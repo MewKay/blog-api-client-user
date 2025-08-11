@@ -8,6 +8,8 @@ import routes from "@/app/routes/routes";
 import authService from "@/services/auth.service";
 import AuthError from "@/lib/errors/auth.error";
 
+vi.mock("@/app/layout/header/header.jsx");
+vi.mock("../home/home.jsx");
 vi.mock("../login/login.jsx", () => ({
   default: () => <p>This is log in page</p>,
 }));
@@ -32,6 +34,7 @@ const setup = () => {
   const passwordInput = screen.getByLabelText(/^password$/i);
   const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
   const submitButton = screen.getByRole("button", { name: /sign up/i });
+  const loginLink = screen.getByRole("link", { name: /log in/i });
 
   return {
     user,
@@ -39,6 +42,7 @@ const setup = () => {
     passwordInput,
     confirmPasswordInput,
     submitButton,
+    loginLink,
   };
 };
 
@@ -141,5 +145,29 @@ describe("Sign up page", () => {
 
       expect(loginText).not.toBeInTheDocument();
     });
+  });
+
+  it("display link to previous page history", async () => {
+    const user = userEvent.setup();
+    setupPageRender(routes, ["/"]);
+
+    const loginLink = screen.getByRole("link", { name: /sign up/i });
+    await user.click(loginLink);
+
+    const backLink = await screen.findByRole("link", { name: /back/i });
+    await user.click(backLink);
+
+    const homeText = await screen.findByText(/This is home/);
+
+    expect(homeText).toBeInTheDocument();
+  });
+
+  it("display link to log in", async () => {
+    const { user, loginLink } = setup();
+
+    await user.click(loginLink);
+    const loginText = await screen.findByText("This is log in page");
+
+    expect(loginText).toBeInTheDocument();
   });
 });
