@@ -10,6 +10,9 @@ import BadRequestError from "@/lib/errors/bad-request.error";
 
 vi.mock("@/app/layout/header/header.jsx");
 vi.mock("../home/home.jsx");
+vi.mock("../signup/signup.jsx", () => ({
+  default: () => <>This is sign up page</>,
+}));
 vi.mock("@/services/auth.service", () => ({
   default: {
     login: vi.fn(),
@@ -29,12 +32,14 @@ const setup = () => {
   const usernameInput = screen.getByLabelText(/username/i);
   const passwordInput = screen.getByLabelText(/password/i);
   const submitButton = screen.getByRole("button", { name: /log in/i });
+  const signUpLink = screen.getByRole("link", { name: /sign up/i });
 
   return {
     user,
     usernameInput,
     passwordInput,
     submitButton,
+    signUpLink,
   };
 };
 
@@ -106,5 +111,29 @@ describe("Log in page", () => {
 
       expect(homeText).not.toBeInTheDocument();
     });
+  });
+
+  it("display link to previous page history", async () => {
+    const user = userEvent.setup();
+    setupPageRender(routes, ["/"]);
+
+    const loginLink = screen.getByRole("link", { name: /log in/i });
+    await user.click(loginLink);
+
+    const backLink = await screen.findByRole("link", { name: /back/i });
+    await user.click(backLink);
+
+    const homeText = await screen.findByText(/This is home/);
+
+    expect(homeText).toBeInTheDocument();
+  });
+
+  it("display link to sign up", async () => {
+    const { user, signUpLink } = setup();
+
+    await user.click(signUpLink);
+    const signUpText = await screen.findByText("This is sign up page");
+
+    expect(signUpText).toBeInTheDocument();
   });
 });
