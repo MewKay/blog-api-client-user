@@ -1,5 +1,7 @@
 import signUpSchema from "@/constants/signup-schema";
 import authService from "@/services/auth.service";
+import AuthError from "@/lib/errors/auth.error";
+import BadRequestError from "@/lib/errors/bad-request.error";
 import { redirect } from "react-router-dom";
 
 const SignUpAction = async ({ request }) => {
@@ -17,9 +19,16 @@ const SignUpAction = async ({ request }) => {
     return { error: "Provided inputs are invalid" };
   }
 
-  await authService.signup(signUpData);
+  try {
+    await authService.signup(signUpData);
+    return redirect("/log-in");
+  } catch (error) {
+    if (error instanceof BadRequestError || error instanceof AuthError) {
+      return error.response;
+    }
 
-  return redirect("/log-in");
+    throw error;
+  }
 };
 
 export default SignUpAction;

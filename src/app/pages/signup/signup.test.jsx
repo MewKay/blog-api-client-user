@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import setupPageRender from "@/testing/utils/setupPageRender";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -6,9 +6,15 @@ import testInputTyping from "@/testing/utils/testInputTyping";
 import ROUTES_PATH from "@/app/routes/path";
 import routes from "@/app/routes/routes";
 import authService from "@/services/auth.service";
+import AuthError from "@/lib/errors/auth.error";
 
 vi.mock("../login/login.jsx", () => ({
   default: () => <p>This is log in page</p>,
+}));
+vi.mock("@/services/auth.service", () => ({
+  default: {
+    signup: vi.fn(),
+  },
 }));
 
 const mockInputValue = {
@@ -38,6 +44,8 @@ const setup = () => {
 
 describe("Sign up page", () => {
   describe("Sign up form", () => {
+    beforeEach(() => vi.clearAllMocks());
+
     testInputTyping(
       [
         {
@@ -60,7 +68,6 @@ describe("Sign up page", () => {
     );
 
     it("should call auth service sign up and redirect to login page", async () => {
-      authService.signup = vi.fn();
       const {
         user,
         usernameInput,
@@ -82,8 +89,38 @@ describe("Sign up page", () => {
       expect(loginText).toBeInTheDocument();
     });
 
+    it("should display one or many error message for any problem occuring during api call", async () => {
+      const errorMessages = [
+        "Username is invalid",
+        "Password is too weak",
+        "Password are not matching",
+      ];
+
+      authService.signup.mockImplementationOnce(() => {
+        throw new AuthError({ error: errorMessages });
+      });
+      const {
+        user,
+        usernameInput,
+        passwordInput,
+        confirmPasswordInput,
+        submitButton,
+      } = setup();
+
+      await user.type(usernameInput, mockInputValue.username);
+      await user.type(passwordInput, mockInputValue.password);
+      await user.type(confirmPasswordInput, mockInputValue.confirm_password);
+      await user.click(submitButton);
+
+      expect(authService.signup).toHaveBeenCalledWith(mockInputValue);
+
+      for (let message of errorMessages) {
+        const errorText = await screen.findByText(message);
+        expect(errorText).toBeInTheDocument();
+      }
+    });
+
     it("should not be able to submit if form is invalid", async () => {
-      authService.signup = vi.fn();
       const {
         user,
         usernameInput,
