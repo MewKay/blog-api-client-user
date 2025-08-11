@@ -9,6 +9,7 @@ import LoginAction from "../pages/login/login.action";
 import SignUp from "../pages/signup/signup";
 import SignUpAction from "../pages/signup/signup.action";
 import ErrorBoundary from "../layout/error-boundary/error-boundary";
+import NotFound from "../pages/not-found/not-found";
 
 const routes = [
   {
@@ -36,6 +37,10 @@ const routes = [
     element: <SignUp />,
     errorElement: <ErrorBoundary />,
     action: SignUpAction,
+  },
+  {
+    path: ROUTES_PATH.else,
+    element: <NotFound />,
   },
 ];
 

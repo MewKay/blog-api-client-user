@@ -3,6 +3,7 @@ const ROUTES_PATH = {
   blogPost: "posts/:encodedId/:slug",
   login: "log-in",
   signup: "sign-up",
+  else: "*",
 };
 
 export default ROUTES_PATH;
