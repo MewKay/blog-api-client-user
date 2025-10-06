@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import styles from "./input.module.css";
+import InputErrorMessage from "../input-error-message/input-error-message";
 
 const Input = ({ children, value, setValue, errorMessage, ...inputProps }) => {
-  const isValueNotEmpty = value !== "";
-
   return (
     <div className={styles.inputContainer}>
       <label className={styles.inputLabelContainer}>
@@ -15,7 +14,7 @@ const Input = ({ children, value, setValue, errorMessage, ...inputProps }) => {
           {...inputProps}
         />
       </label>
-      <p>{isValueNotEmpty && errorMessage}</p>
+      <InputErrorMessage value={value} errorMessage={errorMessage} />
     </div>
   );
 };

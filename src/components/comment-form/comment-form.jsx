@@ -1,5 +1,6 @@
 import commentSchema from "@/constants/commentSchema";
 import PropTypes from "prop-types";
+import InputErrorMessage from "../input-error-message/input-error-message";
 
 const CommentForm = ({
   handleCommentSubmit,
@@ -11,7 +12,6 @@ const CommentForm = ({
   const { errors, isFormValid } = commentSchema.validateInputs({
     text: inputValue,
   });
-  const isValueNotEmpty = inputValue !== "";
 
   return (
     <form
@@ -30,6 +30,7 @@ const CommentForm = ({
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
       ></textarea>
+      <InputErrorMessage value={inputValue} errorMessage={errors.text} />
       <div>
         <button type="submit" disabled={!isFormValid}>
           Send
@@ -38,7 +39,6 @@ const CommentForm = ({
           Cancel
         </button>
       </div>
-      <p>{isValueNotEmpty && errors.text}</p>
     </form>
   );
 };
