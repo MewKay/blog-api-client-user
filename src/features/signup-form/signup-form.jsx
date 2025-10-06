@@ -1,13 +1,15 @@
+import Button from "@/components/button/button";
 import Input from "@/components/input/input";
 import signUpSchema from "@/constants/signup-schema";
 import ranges from "@/constants/validationRanges";
 import { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, useNavigation } from "react-router-dom";
 
 const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigation = useNavigation();
 
   const { errors, isFormValid } = signUpSchema.validateInputs({
     username,
@@ -51,7 +53,12 @@ const SignUpForm = () => {
         Confirm Password
       </Input>
 
-      <button disabled={!isFormValid}>Sign Up</button>
+      <Button
+        colorScheme={"dark"}
+        disabled={!isFormValid || navigation.state === "submitting"}
+      >
+        Sign Up
+      </Button>
     </Form>
   );
 };

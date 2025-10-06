@@ -1,6 +1,7 @@
 import commentSchema from "@/constants/commentSchema";
 import PropTypes from "prop-types";
 import InputErrorMessage from "../input-error-message/input-error-message";
+import Button from "../button/button";
 
 const CommentForm = ({
   handleCommentSubmit,
@@ -32,12 +33,12 @@ const CommentForm = ({
       ></textarea>
       <InputErrorMessage value={inputValue} errorMessage={errors.text} />
       <div>
-        <button type="submit" disabled={!isFormValid}>
+        <Button colorScheme={"dark"} type="submit" disabled={!isFormValid}>
           Send
-        </button>
-        <button type="reset" onClick={handleResetForm}>
+        </Button>
+        <Button colorScheme={"light"} type="reset" onClick={handleResetForm}>
           Cancel
-        </button>
+        </Button>
       </div>
     </form>
   );

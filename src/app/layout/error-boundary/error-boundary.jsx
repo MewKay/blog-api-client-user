@@ -1,3 +1,4 @@
+import Button from "@/components/button/button";
 import NetworkError from "@/lib/errors/network.error";
 import ServerError from "@/lib/errors/server.error";
 import PropTypes from "prop-types";
@@ -11,8 +12,12 @@ const ErrorLayout = ({ title, children }) => {
       <h3>{title}</h3>
       {children}
       <div>
-        <button onClick={() => navigate(-1)}>Go Back</button>
-        <button onClick={() => navigate("/")}>Go Home</button>
+        <Button colorScheme={"light"} onClick={() => navigate(-1)}>
+          Go Back
+        </Button>
+        <Button colorScheme={"light"} onClick={() => navigate("/")}>
+          Go Home
+        </Button>
       </div>
     </main>
   );

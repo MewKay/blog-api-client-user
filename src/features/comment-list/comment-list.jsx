@@ -1,5 +1,6 @@
 import useBlogComments from "@/hooks/useBlogComments";
 import Comment from "../comment/comment";
+import Button from "@/components/button/button";
 
 const CommentList = () => {
   const { comments, updateComments } = useBlogComments();
@@ -15,7 +16,9 @@ const CommentList = () => {
             Something went wrong while fetching the comments. Please try again
             later.
           </p>
-          <button onClick={updateComments}>Retry</button>
+          <Button colorScheme={"light"} onClick={updateComments}>
+            Retry
+          </Button>
         </div>
       ) : (
         <ul>

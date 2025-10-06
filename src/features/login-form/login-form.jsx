@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, useNavigation } from "react-router-dom";
 import Input from "@/components/input/input";
 import loginSchema from "@/constants/loginSchema";
 import ranges from "@/constants/validationRanges";
+import Button from "@/components/button/button";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
   const { errors, isFormValid } = loginSchema.validateInputs({
     username,
@@ -39,7 +41,12 @@ const LoginForm = () => {
         Password
       </Input>
 
-      <button disabled={!isFormValid}>Log in</button>
+      <Button
+        colorScheme={"dark"}
+        disabled={!isFormValid || navigation.state === "submitting"}
+      >
+        Log in
+      </Button>
     </Form>
   );
 };
