@@ -1,13 +1,15 @@
 import PropTypes from "prop-types";
+import styles from "./input.module.css";
 
 const Input = ({ children, value, setValue, errorMessage, ...inputProps }) => {
   const isValueNotEmpty = value !== "";
 
   return (
-    <div>
-      <label>
+    <div className={styles.inputContainer}>
+      <label className={styles.inputLabelContainer}>
         {children}
         <input
+          className={styles.inputText}
           value={value}
           onChange={(event) => setValue(event.target.value)}
           {...inputProps}

@@ -1,0 +1,21 @@
+.input-container,
+.input-label-container:has(:not([type="checkbox"])) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.input-container {
+  margin-bottom: var(--spacing-4);
+}
+
+.input-label-container {
+  font-size: var(--font-size-4);
+}
+
+.input-text:not([type="checkbox"]) {
+  background-color: var(--grey-300);
+  border: none;
+  border-radius: var(--radius-small);
+  padding: var(--spacing-2) var(--spacing-3);
+}
