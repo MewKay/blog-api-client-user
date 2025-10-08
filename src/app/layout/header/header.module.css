@@ -10,7 +10,7 @@ header {
   box-shadow: var(--shadow-1);
 }
 
-.hero {
+.brand {
   font-size: var(--font-size-7);
   color: var(--primary-600);
 }

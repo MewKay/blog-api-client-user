@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import styles from "./header.module.css";
+import LoggedMenu from "@/components/logged-menu/logged-menu";
 
 const AuthLinks = () => {
   return (
@@ -12,26 +12,12 @@ const AuthLinks = () => {
   );
 };
 
-const LoggedMenu = ({ logout, username }) => {
-  return (
-    <div>
-      <button>Open</button>
-      <ul>
-        <li>{username}</li>
-        <li>
-          <button onClick={logout}>Log out</button>
-        </li>
-      </ul>
-    </div>
-  );
-};
-
 const Header = () => {
   const { user, logout } = useAuth();
 
   return (
     <header>
-      <h1 className={styles.hero}>ThyBlog</h1>
+      <h1 className={styles.brand}>ThyBlog</h1>
 
       {!user ? (
         <AuthLinks />
@@ -40,11 +26,6 @@ const Header = () => {
       )}
     </header>
   );
-};
-
-LoggedMenu.propTypes = {
-  logout: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
 };
 
 export default Header;
