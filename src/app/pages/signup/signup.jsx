@@ -1,19 +1,21 @@
+import { Link, useActionData } from "react-router-dom";
+import BackLink from "@/components/back-link/back-link";
 import ActionErrorMessages from "@/components/action-error-messages/action-error-messages";
 import SignUpForm from "@/features/signup-form/signup-form";
-import { Link, useActionData } from "react-router-dom";
+import styles from "@/styles/components/auth-form.module.css";
 
 const SignUp = () => {
   const actionData = useActionData();
 
   return (
-    <main>
-      <Link to={-1}>{"<--"} Go back</Link>
-      <div>
-        <h3>Create your account</h3>
+    <main className={styles.formMain}>
+      <BackLink />
+      <div className={styles.formContainer}>
+        <h3 className={styles.formTitle}>Create your account</h3>
         <ActionErrorMessages actionData={actionData} />
         <SignUpForm />
       </div>
-      <div>
+      <div className={styles.prompt}>
         <p>
           Already have an account? <Link to={"/log-in"}>Log in here.</Link>
         </p>
