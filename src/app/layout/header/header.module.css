@@ -1,0 +1,28 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--grey-100);
+  box-shadow: var(--shadow-1);
+}
+
+.hero {
+  font-size: var(--font-size-7);
+  color: var(--primary-600);
+}
+
+.auth-link-container {
+  display: flex;
+  gap: var(--spacing-4);
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-bold);
+}
+
+.auth-link-container a {
+  color: var(--primary-400);
+  text-decoration: none;
+}

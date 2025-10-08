@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
+import styles from "./header.module.css";
 
 const AuthLinks = () => {
   return (
-    <div>
+    <div className={styles.authLinkContainer}>
       <Link to={"/log-in"}>Log in</Link>
       <Link to={"/sign-up"}>Sign Up</Link>
     </div>
@@ -30,7 +31,7 @@ const Header = () => {
 
   return (
     <header>
-      <h1>ThyBlog</h1>
+      <h1 className={styles.hero}>ThyBlog</h1>
 
       {!user ? (
         <AuthLinks />
