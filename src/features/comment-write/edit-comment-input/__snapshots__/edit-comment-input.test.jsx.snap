@@ -8,19 +8,27 @@ exports[`EditCommentInput component > renders correctly 1`] = `
     >
       I'm commentin and criticizin
     </textarea>
+    <p
+      class="_errorMessage_ae96c2 _hidden_ae96c2"
+    />
     <div>
       <button
+        class="
+    _darkButton_2d5e81 undefined
+  "
         type="submit"
       >
         Send
       </button>
       <button
+        class="
+    _lightButton_2d5e81 undefined
+  "
         type="reset"
       >
         Cancel
       </button>
     </div>
-    <p />
   </form>
 </div>
 `;

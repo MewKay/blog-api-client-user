@@ -7,20 +7,30 @@ exports[`NewCommentInput component > should render correctly 1`] = `
       name="text"
       placeholder="Write a new comment..."
     />
+    <p
+      class="_errorMessage_ae96c2 _hidden_ae96c2"
+    >
+      Comment is required to be between 1 and 280 characters.
+    </p>
     <div>
       <button
+        class="
+    _darkButton_2d5e81 undefined
+  "
         disabled=""
         type="submit"
       >
         Send
       </button>
       <button
+        class="
+    _lightButton_2d5e81 undefined
+  "
         type="reset"
       >
         Cancel
       </button>
     </div>
-    <p />
   </form>
 </div>
 `;

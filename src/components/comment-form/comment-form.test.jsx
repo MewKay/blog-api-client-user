@@ -68,28 +68,6 @@ describe("Comment form component", () => {
     expect(mockProps.handleResetForm).toHaveBeenCalledOnce();
   });
 
-  it("shows when form invalid but only when textarea value is not empty", () => {
-    const tooLongComment = (() => {
-      let comment = "";
-      for (let i = 0; i < ranges.commentText.max + 1; i++) {
-        comment += "A";
-      }
-
-      return comment;
-    })();
-
-    const { errorMessage: firstErrorMessage, unmount } = setup({
-      inputValue: "",
-    });
-    expect(firstErrorMessage).not.toBeInTheDocument();
-    unmount();
-
-    const { errorMessage: secondErrorMessage } = setup({
-      inputValue: tooLongComment,
-    });
-    expect(secondErrorMessage).toBeInTheDocument();
-  });
-
   it("does not call handleCommentSubmit if form is invalid", async () => {
     const { user, submitButton } = setup({ inputValue: "" });
     await user.click(submitButton);

@@ -1,5 +1,6 @@
 import LoginForm from "@/features/login-form/login-form";
 import { Link, useActionData } from "react-router-dom";
+import ActionErrorMessages from "@/components/action-error-messages/action-error-messages";
 
 const Login = () => {
   const actionData = useActionData();
@@ -9,19 +10,7 @@ const Login = () => {
       <Link to={-1}>{"<--"} Go back</Link>
       <div>
         <h3>Log in to your account</h3>
-
-        {actionData && (
-          <ul>
-            {Array.isArray(actionData.error) ? (
-              actionData.error.map((errorMessage, index) => (
-                <li key={index}>{errorMessage}</li>
-              ))
-            ) : (
-              <li>{actionData.error}</li>
-            )}
-          </ul>
-        )}
-
+        <ActionErrorMessages actionData={actionData} />
         <LoginForm />
       </div>
       <div>
