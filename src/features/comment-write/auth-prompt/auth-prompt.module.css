@@ -1,0 +1,13 @@
+.text {
+  font-size: var(--font-size-4);
+  line-height: 2;
+}
+
+.auth-link {
+  composes: button from "@/styles/components/button.module.css";
+  background-color: var(--grey-100);
+  color: var(--grey-900);
+  text-decoration: none;
+  margin: 0 var(--spacing-1);
+  text-wrap: nowrap;
+}

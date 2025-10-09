@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
+import styles from "./auth-prompt.module.css";
 
 const AuthPrompt = () => {
   return (
-    <p>
+    <p className={styles.text}>
       To leave a comment, you need to
-      <Link to={"/log-in"}>Log in</Link>
+      <Link className={styles.authLink} to={"/log-in"}>
+        Log in
+      </Link>
       or
-      <Link to={"/sign-up"}>Sign up</Link>.
+      <Link className={styles.authLink} to={"/sign-up"}>
+        Sign up
+      </Link>
+      .
     </p>
   );
 };
