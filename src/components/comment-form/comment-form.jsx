@@ -2,6 +2,7 @@ import commentSchema from "@/constants/commentSchema";
 import PropTypes from "prop-types";
 import InputErrorMessage from "../input-error-message/input-error-message";
 import Button from "../button/button";
+import styles from "./comment-form.module.css";
 
 const CommentForm = ({
   handleCommentSubmit,
@@ -16,6 +17,7 @@ const CommentForm = ({
 
   return (
     <form
+      className={styles.container}
       onSubmit={(event) => {
         event.preventDefault();
         if (!isFormValid) {
@@ -26,14 +28,20 @@ const CommentForm = ({
       }}
     >
       <textarea
+        className={styles.input}
         name="text"
         placeholder={placeholder}
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
       ></textarea>
       <InputErrorMessage value={inputValue} errorMessage={errors.text} />
-      <div>
-        <Button colorScheme={"dark"} type="submit" disabled={!isFormValid}>
+      <div className={styles.buttonContainer}>
+        <Button
+          className={styles.sendButton}
+          colorScheme={"dark"}
+          type="submit"
+          disabled={!isFormValid}
+        >
           Send
         </Button>
         <Button colorScheme={"light"} type="reset" onClick={handleResetForm}>
