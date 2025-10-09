@@ -13,7 +13,7 @@ const BackLink = ({ to = -1, label = "Go back" }) => {
 };
 
 BackLink.propTypes = {
-  to: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+  to: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.string,
 };
 
