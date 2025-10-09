@@ -99,6 +99,10 @@
   --radius-medium: 6px;
   --radius-large: 12px;
   --radius-full: 50%;
+
+  /* Borders */
+  --separator-light: solid 2px var(--grey-200);
+  --separator-dark: solid 2px var(--grey-400);
 }
 
 body {

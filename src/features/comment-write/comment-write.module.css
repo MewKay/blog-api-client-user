@@ -1,0 +1,6 @@
+.container {
+  padding: var(--spacing-5) 0;
+  width: 100%;
+  max-width: var(--spacing-15);
+  border-bottom: var(--separator-dark);
+}
