@@ -2,21 +2,68 @@
 
 exports[`Post component > renders correctly 1`] = `
 <div>
-  <div>
-    <h2>
+  <div
+    class="_postContainer_c511ce"
+  >
+    <h2
+      class="_title_c511ce"
+    >
       Art of testing
     </h2>
-    <div>
-      <p>
-        SEPTEMBER 21, 2023
-      </p>
-      ( Last edited JANUARY 10, 2024 )
-       |
-      <p>
+    <div
+      class="_info_c511ce"
+    >
+      <div
+        class="_date_c511ce"
+      >
+        <p
+          class="_create_c511ce"
+        >
+          SEPTEMBER 21, 2023
+        </p>
+        <p
+          class="_edit_c511ce"
+        >
+          Last edited JANUARY 10, 2024
+        </p>
+      </div>
+      <svg
+        class="lucide lucide-ellipsis-vertical"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="1"
+        />
+        <circle
+          cx="12"
+          cy="5"
+          r="1"
+        />
+        <circle
+          cx="12"
+          cy="19"
+          r="1"
+        />
+      </svg>
+      <p
+        class="_username_c511ce"
+      >
         thu_sun
       </p>
     </div>
-    <div>
+    <div
+      class="_text_c511ce"
+    >
       Testing is mandatory, nuff said
     </div>
   </div>
