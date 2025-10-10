@@ -1,5 +1,8 @@
 import PostItem from "./post-item/post-item";
 import useFetchPosts from "./useFetchPosts";
+import Loader from "@/components/loader/loader";
+import { BookX } from "lucide-react";
+import styles from "./post-list.module.css";
 
 const PostList = () => {
   const { posts, loading, error } = useFetchPosts();
@@ -7,11 +10,16 @@ const PostList = () => {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : error ? (
-        <p>Something went wrong. Please try to refresh the page.</p>
+        <div className={styles.errorContainer}>
+          <BookX />
+          <p className={styles.errorMessage}>
+            Something went wrong. Please try to refresh the page later.
+          </p>
+        </div>
       ) : (
-        <ul>
+        <ul className={styles.list}>
           {posts.map((post) => (
             <PostItem key={post.id} post={post} />
           ))}
