@@ -2,8 +2,11 @@
 
 exports[`EditCommentInput component > renders correctly 1`] = `
 <div>
-  <form>
+  <form
+    class="_container_404b01"
+  >
     <textarea
+      class="_input_404b01"
       name="text"
     >
       I'm commentin and criticizin
@@ -11,10 +14,12 @@ exports[`EditCommentInput component > renders correctly 1`] = `
     <p
       class="_errorMessage_ae96c2 _hidden_ae96c2"
     />
-    <div>
+    <div
+      class="_buttonContainer_404b01"
+    >
       <button
         class="
-    _darkButton_2d5e81 undefined
+    _darkButton_2d5e81 _sendButton_404b01
   "
         type="submit"
       >

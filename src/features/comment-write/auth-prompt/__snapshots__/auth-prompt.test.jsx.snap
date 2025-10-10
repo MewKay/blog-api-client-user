@@ -2,15 +2,19 @@
 
 exports[`AuthPrompt component > renders correctly 1`] = `
 <div>
-  <p>
+  <p
+    class="_text_5c6a67"
+  >
     To leave a comment, you need to
     <a
+      class="_authLink_5c6a67"
       href="/log-in"
     >
       Log in
     </a>
     or
     <a
+      class="_authLink_5c6a67"
       href="/sign-up"
     >
       Sign up

@@ -13,7 +13,7 @@ const CommentList = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <div>
+        <div className={styles.errorContainer}>
           <p>
             Something went wrong while fetching the comments. Please try again
             later.

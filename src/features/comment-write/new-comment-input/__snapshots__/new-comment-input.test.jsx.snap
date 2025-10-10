@@ -2,8 +2,11 @@
 
 exports[`NewCommentInput component > should render correctly 1`] = `
 <div>
-  <form>
+  <form
+    class="_container_404b01"
+  >
     <textarea
+      class="_input_404b01"
       name="text"
       placeholder="Write a new comment..."
     />
@@ -12,10 +15,12 @@ exports[`NewCommentInput component > should render correctly 1`] = `
     >
       Comment is required to be between 1 and 280 characters.
     </p>
-    <div>
+    <div
+      class="_buttonContainer_404b01"
+    >
       <button
         class="
-    _darkButton_2d5e81 undefined
+    _darkButton_2d5e81 _sendButton_404b01
   "
         disabled=""
         type="submit"
