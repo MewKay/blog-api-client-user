@@ -1,6 +1,7 @@
 import useBlogComments from "@/hooks/useBlogComments";
 import Comment from "../comment/comment";
 import Button from "@/components/button/button";
+import styles from "./comment-list.module.css";
 
 const CommentList = () => {
   const { comments, updateComments } = useBlogComments();
@@ -21,7 +22,7 @@ const CommentList = () => {
           </Button>
         </div>
       ) : (
-        <ul>
+        <ul className={styles.list}>
           {commentList.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}

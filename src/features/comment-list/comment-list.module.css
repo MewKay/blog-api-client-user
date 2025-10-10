@@ -1,0 +1,4 @@
+.list {
+  max-width: var(--spacing-15);
+  width: 100%;
+}
