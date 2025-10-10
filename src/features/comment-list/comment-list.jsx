@@ -1,6 +1,7 @@
 import useBlogComments from "@/hooks/useBlogComments";
 import Comment from "../comment/comment";
 import Button from "@/components/button/button";
+import Loader from "@/components/loader/loader";
 import styles from "./comment-list.module.css";
 
 const CommentList = () => {
@@ -10,7 +11,7 @@ const CommentList = () => {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : error ? (
         <div>
           <p>
