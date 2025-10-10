@@ -23,9 +23,7 @@ const CommentList = () => {
       ) : (
         <ul>
           {commentList.map((comment) => (
-            <li key={comment.id}>
-              <Comment comment={comment} />
-            </li>
+            <Comment key={comment.id} comment={comment} />
           ))}
         </ul>
       )}

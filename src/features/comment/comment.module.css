@@ -1,0 +1,42 @@
+.comment-container {
+  list-style: none;
+  position: relative;
+  padding: var(--spacing-3) 0;
+}
+
+.comment-container:not(:first-of-type) {
+  border-top: solid 2px var(--grey-300);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.comment-details {
+  display: flex;
+  gap: var(--spacing-1);
+  color: var(--grey-800);
+}
+
+.username {
+  font-weight: var(--font-weight-bold);
+  color: var(--grey-900);
+}
+
+.edit-button {
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--spacing-3);
+  padding: var(--spacing-1) var(--spacing-1);
+  border: none;
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-1);
+}
+
+.edit-button svg {
+  color: var(--primary-700);
+}

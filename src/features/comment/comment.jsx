@@ -2,6 +2,8 @@ import useAuth from "@/hooks/useAuth";
 import useBlogComments from "@/hooks/useBlogComments";
 import { formatDistanceToNowStrict } from "date-fns";
 import PropTypes from "prop-types";
+import { Dot, Pencil } from "lucide-react";
+import styles from "./comment.module.css";
 
 const Comment = ({ comment }) => {
   const { user: currentUser, isAuthenticated } = useAuth();
@@ -17,19 +19,26 @@ const Comment = ({ comment }) => {
   });
 
   return (
-    <>
-      <div>
-        <h6>{user.username}</h6>
-        <span>
-          <p>&middot; {formattedDate}</p>
+    <li className={styles.commentContainer}>
+      <div className={styles.head}>
+        <p className={styles.username}>{user.username}</p>
+        <Dot />
+        <span className={styles.commentDetails}>
+          <p>{formattedDate}</p>
           {isCommentEdited && "(edited)"}
         </span>
       </div>
       <p>{text}</p>
       {isCommentOfCurrentUser && (
-        <button onClick={() => setCommentToEdit(comment)}>Edit</button>
+        <button
+          className={styles.editButton}
+          aria-label="Edit your comment"
+          onClick={() => setCommentToEdit(comment)}
+        >
+          <Pencil />
+        </button>
       )}
-    </>
+    </li>
   );
 };
 
