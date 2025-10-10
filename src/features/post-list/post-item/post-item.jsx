@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { formatPostDate } from "./post-item.util";
 import sqids from "@/lib/sqids";
+import { Dot } from "lucide-react";
+import styles from "./post-item.module.css";
 
 const PostItem = ({ post }) => {
   const { id, title, preview, created_at, author, slug } = post;
@@ -9,13 +11,17 @@ const PostItem = ({ post }) => {
   const encodedId = sqids.encode(id);
 
   return (
-    <li>
+    <li className={styles.container}>
       <Link to={`/posts/${encodedId}/${slug}`}>
-        <h3>{title}</h3>
-        <p>
-          by @{author.username} &middot; {postDate}
-        </p>
-        <p>{preview}</p>
+        <h3 className={styles.title}>{title}</h3>
+        <div className={styles.info}>
+          <p className={styles.username}>
+            by <span>@{author.username}</span>
+          </p>
+          <Dot />
+          <p className={styles.date}>{postDate}</p>
+        </div>
+        <p className={styles.preview}>{preview}</p>
       </Link>
     </li>
   );
