@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import routes from "@/app/routes/routes";
-import ROUTES_PATH from "@/app/routes/path";
+import paths from "@/app/routes/paths";
 
 import sqids from "@/lib/sqids";
 import postService from "@/services/post.service";
@@ -93,10 +93,7 @@ describe("Blog Post page", () => {
 
   it("successfully fetches and display post and comments list", async () => {
     setupPageRender(routes, [
-      "/" +
-        ROUTES_PATH.blogPost
-          .replace(":encodedId", "mockedId")
-          .replace(":slug", mockPost.slug),
+      paths.blogPost.getHref("mockedId", mockPost.slug),
     ]);
 
     await assertPostFetched();
@@ -107,10 +104,7 @@ describe("Blog Post page", () => {
     const user = userEvent.setup();
 
     setupPageRender(routes, [
-      "/" +
-        ROUTES_PATH.blogPost
-          .replace(":encodedId", "mockedId")
-          .replace(":slug", mockPost.slug),
+      paths.blogPost.getHref("mockedId", mockPost.slug),
     ]);
 
     const homeLink = await screen.findByRole("link", { name: /to blog list/i });
@@ -125,17 +119,14 @@ describe("Blog Post page", () => {
   it("display link to home on error boundary", async () => {
     const user = userEvent.setup();
 
-    const testRoutes = modifyPath(routes, ROUTES_PATH.blogPost, {
+    const testRoutes = modifyPath(routes, paths.blogPost.path, {
       loader: () => {
         throw new NotFoundError();
       },
     });
 
     setupPageRender(testRoutes, [
-      "/" +
-        ROUTES_PATH.blogPost
-          .replace(":encodedId", "notAnActualId")
-          .replace(":slug", mockPost.slug),
+      paths.blogPost.getHref("notAnActualId", mockPost.slug),
     ]);
 
     const homeLink = await screen.findByRole("link", { name: /home/i });
@@ -148,17 +139,14 @@ describe("Blog Post page", () => {
   });
 
   it("does not display error boundary if not BadRequestError or NotFoundError", async () => {
-    const testRoutes = modifyPath(routes, ROUTES_PATH.blogPost, {
+    const testRoutes = modifyPath(routes, paths.blogPost.path, {
       loader: () => {
         throw new Error();
       },
     });
 
     setupPageRender(testRoutes, [
-      "/" +
-        ROUTES_PATH.blogPost
-          .replace(":encodedId", "mockedId")
-          .replace(":slug", mockPost.slug),
+      paths.blogPost.getHref("mockedId", mockPost.slug),
     ]);
 
     const homeLink = screen.queryByRole("link", { name: /home/i });
@@ -169,15 +157,12 @@ describe("Blog Post page", () => {
     sqids.decode = vi.fn().mockImplementationOnce(() => {
       throw new BadRequestError();
     });
-    const testRoutes = modifyPath(routes, ROUTES_PATH.blogPost, {
+    const testRoutes = modifyPath(routes, paths.blogPost.path, {
       errorElement: <>This is error</>,
     });
 
     setupPageRender(testRoutes, [
-      "/" +
-        ROUTES_PATH.blogPost
-          .replace(":encodedId", "invalide")
-          .replace(":slug", mockPost.slug),
+      paths.blogPost.getHref("invalide", mockPost.slug),
     ]);
 
     const errorText = await screen.findByText("This is error");
