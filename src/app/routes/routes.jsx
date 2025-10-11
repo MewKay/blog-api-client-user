@@ -1,4 +1,4 @@
-import ROUTES_PATH from "./path";
+import paths from "./paths";
 import Layout from "../layout/layout";
 import Home from "../pages/home/home";
 import BlogPost from "../pages/blog-post/blog-post";
@@ -13,13 +13,13 @@ import NotFound from "../pages/not-found/not-found";
 
 const routes = [
   {
-    path: ROUTES_PATH.home,
+    path: paths.home.path,
     element: <Layout />,
     errorElement: <ErrorBoundary />,
     children: [
       { index: true, element: <Home /> },
       {
-        path: ROUTES_PATH.blogPost,
+        path: paths.blogPost.path,
         element: <BlogPost />,
         errorElement: <BlogPostBoundary />,
         loader: blogPostLoader,
@@ -27,19 +27,19 @@ const routes = [
     ],
   },
   {
-    path: ROUTES_PATH.login,
+    path: paths.login.path,
     element: <Login />,
     errorElement: <ErrorBoundary />,
     action: LoginAction,
   },
   {
-    path: ROUTES_PATH.signup,
+    path: paths.signup.path,
     element: <SignUp />,
     errorElement: <ErrorBoundary />,
     action: SignUpAction,
   },
   {
-    path: ROUTES_PATH.else,
+    path: paths.notFound.path,
     element: <NotFound />,
   },
 ];
