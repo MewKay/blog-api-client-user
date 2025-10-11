@@ -1,3 +1,4 @@
+import paths from "@/app/routes/paths";
 import Button from "@/components/button/button";
 import NetworkError from "@/lib/errors/network.error";
 import ServerError from "@/lib/errors/server.error";
@@ -12,10 +13,13 @@ const ErrorLayout = ({ title, children }) => {
       <h3>{title}</h3>
       {children}
       <div>
-        <Button colorScheme={"light"} onClick={() => navigate(-1)}>
+        <Button
+          colorScheme={"light"}
+          onClick={() => navigate(paths.oneStepBack.path)}
+        >
           Go Back
         </Button>
-        <Button colorScheme={"light"} onClick={() => navigate("/")}>
+        <Button colorScheme={"light"} onClick={() => navigate(paths.home.path)}>
           Go Home
         </Button>
       </div>

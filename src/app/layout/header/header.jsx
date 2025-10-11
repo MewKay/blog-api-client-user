@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import paths from "@/app/routes/paths";
 import useAuth from "@/hooks/useAuth";
 import styles from "./header.module.css";
 import LoggedMenu from "@/components/logged-menu/logged-menu";
@@ -6,8 +7,8 @@ import LoggedMenu from "@/components/logged-menu/logged-menu";
 const AuthLinks = () => {
   return (
     <div className={styles.authLinkContainer}>
-      <Link to={"/log-in"}>Log in</Link>
-      <Link to={"/sign-up"}>Sign Up</Link>
+      <Link to={paths.login.path}>Log in</Link>
+      <Link to={paths.signup.path}>Sign Up</Link>
     </div>
   );
 };
