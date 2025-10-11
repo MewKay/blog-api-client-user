@@ -1,4 +1,5 @@
 import { Link, useActionData } from "react-router-dom";
+import paths from "@/app/routes/paths";
 import BackLink from "@/components/back-link/back-link";
 import ActionErrorMessages from "@/components/action-error-messages/action-error-messages";
 import SignUpForm from "@/features/signup-form/signup-form";
@@ -17,7 +18,8 @@ const SignUp = () => {
       </div>
       <div className={styles.prompt}>
         <p>
-          Already have an account? <Link to={"/log-in"}>Log in here.</Link>
+          Already have an account?{" "}
+          <Link to={paths.login.path}>Log in here.</Link>
         </p>
       </div>
     </main>

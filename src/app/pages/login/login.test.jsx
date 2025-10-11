@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { screen } from "@testing-library/react";
 import routes from "@/app/routes/routes";
-import ROUTES_PATH from "@/app/routes/path";
+import paths from "@/app/routes/paths";
 import authService from "@/services/auth.service";
 import setupPageRender from "@/testing/utils/setupPageRender";
 import testInputTyping from "@/testing/utils/testInputTyping";
@@ -23,7 +23,7 @@ const mockInputValue = {
   username: "JohnSlam",
   password: "wordpass",
 };
-const routesEntries = ["/" + ROUTES_PATH.login];
+const routesEntries = [paths.login.path];
 
 const setup = () => {
   const user = userEvent.setup();

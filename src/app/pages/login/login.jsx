@@ -1,3 +1,4 @@
+import paths from "@/app/routes/paths";
 import { Link, useActionData } from "react-router-dom";
 import BackLink from "@/components/back-link/back-link";
 import ActionErrorMessages from "@/components/action-error-messages/action-error-messages";
@@ -17,7 +18,7 @@ const Login = () => {
       </div>
       <div className={styles.prompt}>
         Don&apos;t have an account yet?{" "}
-        <Link to={"/sign-up"}>Sign up here</Link>.
+        <Link to={paths.signup.path}>Sign up here</Link>.
       </div>
     </main>
   );
