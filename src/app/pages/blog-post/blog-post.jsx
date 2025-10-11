@@ -5,9 +5,12 @@ import CommentWrite from "@/features/comment-write/comment-write";
 import { BlogCommentsProvider } from "@/context/blog-comments.context";
 import BackLink from "@/components/back-link/back-link";
 import ROUTES_PATH from "@/app/routes/path";
+import ScrollButton from "@/components/scroll-button/scroll-button";
+import useScrollButtonVisibility from "@/hooks/useScrollButtonVisibility";
 
 const BlogPost = () => {
   const { post, postId } = useLoaderData();
+  const scrollVisibility = useScrollButtonVisibility();
 
   return (
     <BlogCommentsProvider postId={postId}>
@@ -16,6 +19,7 @@ const BlogPost = () => {
         <Post post={post} />
         <CommentWrite />
         <CommentList />
+        <ScrollButton isVisible={scrollVisibility} />
       </main>
     </BlogCommentsProvider>
   );
