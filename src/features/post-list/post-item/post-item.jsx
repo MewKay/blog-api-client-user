@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import paths from "@/app/routes/paths";
 import { Link } from "react-router-dom";
 import { formatPostDate } from "./post-item.util";
 import sqids from "@/lib/sqids";
@@ -12,7 +13,7 @@ const PostItem = ({ post }) => {
 
   return (
     <li className={styles.container}>
-      <Link to={`/posts/${encodedId}/${slug}`}>
+      <Link to={paths.blogPost.getHref(encodedId, slug)}>
         <h3 className={styles.title}>{title}</h3>
         <div className={styles.info}>
           <p className={styles.username}>
