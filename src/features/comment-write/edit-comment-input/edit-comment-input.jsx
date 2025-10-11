@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import authService from "@/services/auth.service";
 import useBlogComments from "@/hooks/useBlogComments";
 import CommentForm from "@/components/comment-form/comment-form";
@@ -9,6 +9,10 @@ const EditCommentInput = () => {
     useBlogComments();
   const { text } = commentToEdit;
   const [comment, setComment] = useState(text);
+
+  useEffect(() => {
+    setComment(text);
+  }, [text]);
 
   const handleResetForm = () => {
     setCommentToEdit(null);

@@ -16,13 +16,15 @@ const mockToken = "MeHavePermission";
 
 const setup = () => {
   const user = userEvent.setup();
-  render(<EditCommentInput />);
+  const component = render(<EditCommentInput />);
   const textarea = screen.getByRole("textbox");
   const submitButton = screen.getByRole("button", { name: /send/i });
   const cancelButton = screen.getByRole("button", { name: /cancel/i });
 
   return {
     user,
+    component,
+    rerender: () => component.rerender(<EditCommentInput />),
     textarea,
     submitButton,
     cancelButton,
@@ -32,19 +34,21 @@ const setup = () => {
 describe("EditCommentInput component", () => {
   let mockSetCommentToEdit;
   let mockUpdateComments;
+  let mockCommentsContextValues;
 
   beforeEach(() => {
     mockSetCommentToEdit = vi.fn();
     mockUpdateComments = vi.fn();
     authService.getToken = vi.fn().mockReturnValue(mockToken);
     commentService.updateOne = vi.fn();
-
-    useBlogComments.mockReturnValue({
+    mockCommentsContextValues = {
       postId: 5,
       commentToEdit: mockComment,
       setCommentToEdit: mockSetCommentToEdit,
       updateComments: mockUpdateComments,
-    });
+    };
+
+    useBlogComments.mockReturnValue(mockCommentsContextValues);
   });
 
   it("renders correctly", () => {
@@ -88,5 +92,20 @@ describe("EditCommentInput component", () => {
     await user.click(cancelButton);
     expect(textarea).toHaveValue("");
     expect(mockSetCommentToEdit).toHaveBeenNthCalledWith(1, null);
+  });
+
+  it("should update input value if comment to edit have been updated", async () => {
+    const { component, rerender } = setup();
+    const anotherCommentToEdit = mockComments[1];
+    const commentText = () => component.getByRole("textbox");
+
+    expect(commentText()).toHaveValue(mockComment.text);
+    useBlogComments.mockReturnValue({
+      ...mockCommentsContextValues,
+      commentToEdit: anotherCommentToEdit,
+    });
+
+    rerender();
+    expect(commentText()).toHaveValue(anotherCommentToEdit.text);
   });
 });
