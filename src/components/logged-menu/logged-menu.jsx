@@ -1,10 +1,14 @@
 import { UserCircle } from "lucide-react";
 import PropTypes from "prop-types";
-import styles from "./logged-menu.module.css";
 import { useEffect, useRef, useState } from "react";
+import useAuth from "@/hooks/useAuth";
+import styles from "./logged-menu.module.css";
+
+const WRITER_LOGIN_URL = import.meta.env.VITE_WRITER_LOGIN_URL;
 
 const LoggedMenu = ({ logout, username }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const { user } = useAuth();
   const buttonRef = useRef(null);
   const selectRef = useRef(null);
 
@@ -49,6 +53,13 @@ const LoggedMenu = ({ logout, username }) => {
       </button>
       <ul ref={selectRef} className={selectActionClassName}>
         <li className={styles.username}>{username}</li>
+        <li>
+          <a href={WRITER_LOGIN_URL}>
+            {user.is_author
+              ? "Access to your posts"
+              : "Upgrade account to Writer"}
+          </a>
+        </li>
         <li>
           <button className={styles.logOutButton} onClick={logout}>
             Log out
