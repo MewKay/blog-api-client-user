@@ -2,5 +2,6 @@
   padding: var(--spacing-5) 0;
   width: 100%;
   max-width: var(--spacing-15);
+  border-top: var(--separator-dark);
   border-bottom: var(--separator-dark);
 }
