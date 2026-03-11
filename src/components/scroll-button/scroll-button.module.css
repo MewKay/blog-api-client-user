@@ -1,5 +1,6 @@
 .button {
   position: fixed;
+  right: var(--spacing-7);
   bottom: var(--spacing-7);
   z-index: 10;
   border: none;
