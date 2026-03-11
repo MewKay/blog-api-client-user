@@ -3,9 +3,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import styles from "./markdown.module.css";
 
-const Markdown = ({ children }) => {
+const Markdown = ({ className, children }) => {
   return (
-    <div className={styles.text}>
+    <div className={className || styles.text}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -27,6 +27,7 @@ const Markdown = ({ children }) => {
 };
 
 Markdown.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.node,
 };
 

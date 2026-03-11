@@ -16,6 +16,10 @@
   background-color: var(--grey-300);
 }
 
+.container:hover .preview::after {
+  display: none;
+}
+
 .title {
   font-size: var(--font-size-5);
   color: var(--primary-600);
@@ -30,4 +34,26 @@
 
 .username span {
   font-weight: var(--font-weight-bold);
+}
+
+.preview {
+  position: relative;
+  max-height: var(--spacing-9);
+  overflow: hidden;
+  font-size: var(--font-size-2);
+  color: var(--grey-800);
+}
+
+.preview::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--spacing-4);
+  background: linear-gradient(
+    to bottom,
+    hsla(from var(--grey-200) h s l/ 0%) 0%,
+    hsla(from var(--grey-200) h s l/ 100%) 100%
+  );
 }

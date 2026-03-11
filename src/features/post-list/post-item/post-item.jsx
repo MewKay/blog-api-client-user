@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { formatPostDate } from "./post-item.util";
 import sqids from "@/lib/sqids";
 import { Dot } from "lucide-react";
+import Markdown from "@/components/markdown/markdown";
 import styles from "./post-item.module.css";
 
 const PostItem = ({ post }) => {
@@ -22,7 +23,7 @@ const PostItem = ({ post }) => {
           <Dot />
           <p className={styles.date}>{postDate}</p>
         </div>
-        <p className={styles.preview}>{preview}</p>
+        <Markdown className={styles.preview}>{preview}</Markdown>
       </Link>
     </li>
   );
