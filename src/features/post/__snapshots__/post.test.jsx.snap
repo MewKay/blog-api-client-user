@@ -62,9 +62,11 @@ exports[`Post component > renders correctly 1`] = `
       </p>
     </div>
     <div
-      class="_text_c511ce"
+      class="_text_1d7d60"
     >
-      Testing is mandatory, nuff said
+      <p>
+        Testing is mandatory, nuff said
+      </p>
     </div>
   </div>
 </div>

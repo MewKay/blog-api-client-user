@@ -3,6 +3,7 @@ import { formatPostDate } from "./post.util";
 import { isSameDay } from "date-fns";
 import { EllipsisVertical } from "lucide-react";
 import styles from "./post.module.css";
+import Markdown from "@/components/markdown/markdown";
 
 const Post = ({ post }) => {
   const { title, text, created_at, edited_at, author } = post;
@@ -24,7 +25,7 @@ const Post = ({ post }) => {
         <EllipsisVertical />
         <p className={styles.username}>{author.username}</p>
       </div>
-      <div className={styles.text}>{text}</div>
+      <Markdown>{text}</Markdown>
     </div>
   );
 };
